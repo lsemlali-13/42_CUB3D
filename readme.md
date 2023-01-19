@@ -1,3 +1,3 @@
 
 
-Lah yjib tisir akhay lhabib
+aamin akha rahhal llah ihafdek lina wlik
