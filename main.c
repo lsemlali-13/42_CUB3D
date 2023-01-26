@@ -43,69 +43,31 @@ void	create_wind(char **map, t_player *p)
 	}
 }
 
-int	distance_to_wall(t_player *p, int id)
-{
-	int distance;
-	int	y;
-
-	y = p->y_idx;
-	distance = 0;
-	while (y >= 0)
-	{
-		if (p->map[y][p->x_idx] == '1')
-			break;
-		y -= id;
-	}
-	if (id == 1)
-		distance = y * 50 + 50;
-	else
-		distance = y * 50;
-	return ((p->y - distance) * id);
-}
-int	distance_to_wallx(t_player *p, int id)
-{
-	int distance;
-	int	x;
-
-	x = p->x_idx;
-	distance = 0;
-	while (x >= 0)
-	{
-		if (p->map[p->y_idx][x] == '1')
-			break;
-		x -= id;
-	}
-	if (id == 1)
-		distance = x * 50 + 50;
-	else
-		distance = x * 50;
-	return ((p->x - distance) * id);
-}
-
 void	move_player(int key, t_player *p)
 {
-	if (key == UP && distance_to_wall(p, 1) > 10)
+	if (key == UP && p->map[(p->y - 10) / 50][p->x_idx] != '1')
 	{
+		printf("---- %d\n", p->y);
 		mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
 		p->y -= 10;
 		mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, p->x, p->y);
 		p->y_idx = p->y / 50;
 	}
-	if (key == DOWN && distance_to_wall(p, -1) > 10)
+	if (key == DOWN && p->map[(p->y + 10) / 50][p->x_idx] != '1')
 	{
 		mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
 		p->y += 10;
 		mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, p->x, p->y);
 		p->y_idx = p->y / 50;
 	}
-	if (key == RIGHT && distance_to_wallx(p, -1) > 10)
+	if (key == RIGHT && p->map[p->y_idx][(p->x + 10) / 50] != '1')
 	{
 		mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
 		p->x += 10;
 		mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, p->x, p->y);
 		p->x_idx = p->x / 50;
 	}
-	if (key == LEFT && distance_to_wallx(p, 1) > 10)
+	if (key == LEFT && p->map[p->y_idx][(p->x - 10) / 50] != '1')
 	{
 		mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
 		p->x -= 10;
@@ -144,6 +106,6 @@ int main()
 	map = read_map(fd);
 	p->map = map;
 	create_wind(map, p);
-	mlx_key_hook(win->mlx_w, key_hook, p);
+	mlx_hook(win->mlx_w, 2, 0, key_hook, p);
 	mlx_loop(win->mlx_p);
 }
