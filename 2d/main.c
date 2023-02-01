@@ -32,6 +32,14 @@ int draw_line(t_player *p, int tox, int toy, int color)
 	return (0);
 }
 
+void	my_pixel_put(t_img *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
 void	ren3d(t_player *p)
 {
 	double ang = p->rotangle - (FOV / 2);
@@ -45,15 +53,16 @@ void	ren3d(t_player *p)
 			p->turnx += cos(degrees_to_radians(ang));
 			p->turny += sin(degrees_to_radians(ang));
 		}
-		double dis = sqrt(pow(p->x - p->turnx, 2) + pow(p->y - p->turny, 2));
-		double wallh = (50 / dis) * (250 / 2);
-		tmp.x = i;
-		tmp.y = 0;
-		draw_line(&tmp, i, 250 - wallh, BLUE);
-		tmp.y = 250 - wallh;
-		draw_line(&tmp, i, 250 + wallh, YELLOW);
-		tmp.y = 250 + wallh;
-		draw_line(&tmp, i, 500, RED);
+		draw_line(&tmp, p->turnx, p->turny, BLUE);
+		// double dis = sqrt(pow(p->x - p->turnx, 2) + pow(p->y - p->turny, 2));
+		// double wallh = (50 / dis) * (250 / 2);
+		// tmp.x = i;
+		// tmp.y = 0;
+		// draw_line(&tmp, i, 250 - wallh, BLUE);
+		// tmp.y = 250 - wallh;
+		// draw_line(&tmp, i, 250 + wallh, YELLOW);
+		// tmp.y = 250 + wallh;
+		// draw_line(&tmp, i, 500, RED);
 		ang += FOV / 1000.0;
 	}
 }
@@ -168,6 +177,7 @@ void	move_player(int key, t_player *p)
 	double y = p->y + sin(degrees_to_radians(p->rotangle)) * SPEED;
 	if (key == UP && p->map[(int)y / 50][(int)x / 50] != '1')
 	{
+		clear_wind(p);
 		p->x += cos(degrees_to_radians(p->rotangle)) * SPEED;
 		p->y += sin(degrees_to_radians(p->rotangle)) * SPEED;
 		p->x_idx = p->x / 50;
@@ -178,8 +188,11 @@ void	move_player(int key, t_player *p)
 	y = p->y - sin(degrees_to_radians(p->rotangle)) * SPEED;
 	if (key == DOWN && p->map[(int)y / 50][(int)x / 50] != '1')
 	{
+		clear_wind(p);
+		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
 		p->x -= cos(degrees_to_radians(p->rotangle)) * SPEED;
 		p->y -= sin(degrees_to_radians(p->rotangle)) * SPEED;
+		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, p->x, p->y);
 		p->x_idx = p->x / 50;
 		p->y_idx = p->y / 50;
 		ren3d(p);
@@ -188,8 +201,12 @@ void	move_player(int key, t_player *p)
 	y = p->y + sin(degrees_to_radians(90 + p->rotangle)) * SPEED;
 	if (key == RIGHT && p->map[(int)y / 50][(int)x / 50] != '1')
 	{
+		clear_wind(p);
+		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
+		// p->rotangle += 90;
 		p->x += cos(degrees_to_radians(90 + p->rotangle)) * SPEED;
 		p->y += sin(degrees_to_radians(90 + p->rotangle)) * SPEED;
+		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, p->x, p->y);
 		p->x_idx = p->x / 50;
 		p->y_idx = p->y / 50;
 		ren3d(p);
@@ -198,19 +215,24 @@ void	move_player(int key, t_player *p)
 	y = p->y - sin(degrees_to_radians(90 + p->rotangle)) * SPEED;
 	if (key == LEFT && p->map[(int)y / 50][(int)x / 50] != '1')
 	{
+		clear_wind(p);
+		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
 		p->x -= cos(degrees_to_radians(90 + p->rotangle)) * SPEED;
 		p->y -= sin(degrees_to_radians(90 + p->rotangle)) * SPEED;
+		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, p->x, p->y);
 		p->x_idx = p->x / 50;
 		p->y_idx = p->y / 50;
 		ren3d(p);
 	}
 	if (key == ROTR)
 	{
+		clear_wind(p);
 		p->rotangle += 10;
 		ren3d(p);
 	}
 	if (key == ROTL)
 	{
+		clear_wind(p);
 		p->rotangle -= 10;
 		ren3d(p);
 	}
