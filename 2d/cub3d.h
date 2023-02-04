@@ -51,9 +51,11 @@ typedef struct s_win{
 typedef struct s_player{
 	t_win	*win;
 	char	**map;
+	void	*img;
 	double		turnx;
 	double		turny;
 	double 		rotangle;
+	double		rayangle;
 	int		x_idx;
 	int		y_idx;
 	double		x;

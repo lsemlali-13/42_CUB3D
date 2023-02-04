@@ -13,6 +13,13 @@ char	**read_map(int fd)
 	return (ft_split(s, '\n'));
 }
 
+// void	my_pixel_put(t_img *data, int x, int y, int color)
+// {
+// 	char 
+// 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+// 	*(unsigned int*)dst = color;
+// }
+
 int draw_line(t_player *p, int tox, int toy, int color)
 {
 	double dx = tox - p->x;
@@ -22,7 +29,7 @@ int draw_line(t_player *p, int tox, int toy, int color)
 	dy /= pxs;
 	double px = p->x;
 	double py = p->y;
-	while (pxs)
+	while (pxs && py < 500)
 	{
 		mlx_pixel_put(p->win->mlx_p, p->win->mlx_w, px, py, color);
 		px += dx;
@@ -32,18 +39,12 @@ int draw_line(t_player *p, int tox, int toy, int color)
 	return (0);
 }
 
-void	my_pixel_put(t_img *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
 
 void	ren3d(t_player *p)
 {
 	double ang = p->rotangle - (FOV / 2);
 	t_player tmp = *p;
+
 	for (int i = 0; i < 1000; i++)
 	{
 		p->turnx = p->x;
@@ -158,7 +159,7 @@ void	create_wind(char **map, t_player *p)
 				p->turnx = x;
 				p->turny = y;
 				mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, x, y);
-				// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, x, y);
+				mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, x, y);
 			}
 			else {
 				mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, x, y);
@@ -272,3 +273,19 @@ int main()
 	mlx_hook(win->mlx_w, 2, 0, key_hook, p);
 	mlx_loop(win->mlx_p);
 }
+
+// int	main(void)
+// {
+// 	void	*mlx;
+// 	void	*mlx_win;
+// 	t_img	img;
+
+// 	mlx = mlx_init();
+// 	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
+// 	img.img = mlx_new_image(mlx, 1920, 1080);
+// 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
+// 								&img.endian);
+// 	my_mlx_pixel_put(&img, 5, 5, BLUE);
+// 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+// 	mlx_loop(mlx);
+// }
