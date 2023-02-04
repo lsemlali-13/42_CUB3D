@@ -1,8 +1,8 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define FOV 66
-# define SPEED 5
+# define FOV 66.66
+# define SPEED 10
 # define WIDTH 1000
 # define HEIGHT 500
 
@@ -33,6 +33,7 @@
 typedef struct s_img{
 	void	*img;
 	char	*addr;
+	char	*dst;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
@@ -54,8 +55,7 @@ typedef struct s_player{
 	double		turnx;
 	double		turny;
 	double 		rotangle;
-	int		x_idx;
-	int		y_idx;
+	double		rayangle;
 	double		x;
 	double		y;
 	int		height;
