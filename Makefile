@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+         #
+#    By: rizqy <rizqy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/02 22:03:03 by rarahhal          #+#    #+#              #
-#    Updated: 2022/06/19 15:30:37 by rarahhal         ###   ########.fr        #
+#    Updated: 2023/02/08 15:37:07 by rizqy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,15 @@ FLAGS = -Wall -Werror -Wextra
 CC = cc
 
 SRCS = Mandatory/cub3d.c \
-		Mandatory/ft_check_file.c \
-		Mandatory/get_next_line.c \
-		Mandatory/get_next_line_2.c \
-		Mandatory/setting_map.c \
-		Mandatory/ft_error.c \
-		# Mandatory/map_error.c \
+		Mandatory/parser/ft_check_file.c \
+		Mandatory/parser/get_next_line.c \
+		Mandatory/parser/get_next_line_2.c \
+		Mandatory/parser/map_setting.c \
+		Mandatory/parser/ft_error.c \
+		Mandatory/parser/texture.c \
+		Mandatory/parser/collores.c \
+		Mandatory/parser/collect_map.c \
+		# Mandatory/parser/map_error.c \
 
 # BONUS_SRCS = 
 
@@ -33,6 +36,9 @@ LIBFT = Libft/ft_calloc.c \
 		Libft/ft_strdup.c \
 		Libft/ft_putnbr.c \
 		Libft/ft_itoa.c \
+		Libft/ft_split.c \
+		Libft/ft_strncmp.c \
+		Libft/ft_atoi.c \
 
 OBJS = $(SRCS:.c=.o)
 OBJS_L = $(LIBFT:.c=.o)
@@ -51,9 +57,7 @@ all: $(NAME)
 # bonus: $(NAME_BONUS)
 
 clean:
-	@rm -f bonus/*.o
-	@rm -f Mandatory/*.o
-	@rm -f Bonus/*.o
+	@rm -f Mandatory/parser/*.o
 	@rm -f Libft/*.o
 
 fclean: clean

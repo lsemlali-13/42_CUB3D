@@ -1,5 +1,5 @@
-#include "../includes/cub3d.h"
-#include "../includes/get_next_line.h"
+#include "../../includes/cub3d.h"
+#include "../../includes/get_next_line.h"
 
 void	ft_check_extention(char *str)
 {
@@ -13,12 +13,12 @@ void	ft_check_extention(char *str)
 	ft_error("CHECK_EXTENTION\n");
 }
 
-void	ft_check_file(char *str, t_game *game)
+void	ft_check_file(t_game *game)
 {
 	char	*line;
 	int		fd;
-	ft_check_extention(str);
-	fd = open(str, O_RDONLY);
+	ft_check_extention(game->file_name);
+	fd = open(game->file_name, O_RDONLY);
 	if (fd <= 0)
 		ft_error("error in opening file\n");
 	line = get_next_line_2(fd);

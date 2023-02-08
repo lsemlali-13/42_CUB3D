@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rizqy <rizqy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 16:40:12 by rarahhal          #+#    #+#             */
-/*   Updated: 2022/06/19 14:16:49 by rarahhal         ###   ########.fr       */
+/*   Created: 2022/06/19 13:52:14 by rarahhal          #+#    #+#             */
+/*   Updated: 2023/01/27 13:58:25 by rizqy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/get_next_line.h"
+#include "../../includes/get_next_line.h"
 
-char	*join_and_free(char *save, char *buffer)
+char	*join_and_free_2(char *save, char *buffer)
 {
 	char	*temp;
 
@@ -21,7 +21,7 @@ char	*join_and_free(char *save, char *buffer)
 	return (temp);
 }
 
-char	*move_to_rest(char *stock)
+char	*move_to_rest_2(char *stock)
 {
 	char	*rest;
 	int		i;
@@ -44,7 +44,7 @@ char	*move_to_rest(char *stock)
 	return (rest);
 }
 
-char	*get_line(char *stock)
+char	*get_line_2(char *stock)
 {
 	char	*line;
 	int		i;
@@ -61,10 +61,12 @@ char	*get_line(char *stock)
 		line[i] = stock[i];
 		i++;
 	}
+	if (stock[i] && stock[i] == '\n')
+		line[i] = '\n';
 	return (line);
 }
 
-char	*read_file(int fd, char *save)
+char	*read_file_2(int fd, char *save)
 {
 	char	*buffer;
 	int		byt_read;
@@ -82,7 +84,7 @@ char	*read_file(int fd, char *save)
 			return (NULL);
 		}
 		buffer[byt_read] = 0;
-		save = join_and_free(save, buffer);
+		save = join_and_free_2(save, buffer);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
@@ -90,17 +92,17 @@ char	*read_file(int fd, char *save)
 	return (save);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line_2(int fd)
 {
 	static char	*stock;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	stock = read_file(fd, stock);
+	stock = read_file_2(fd, stock);
 	if (!stock)
 		return (NULL);
-	line = get_line(stock);
-	stock = move_to_rest(stock);
+	line = get_line_2(stock);
+	stock = move_to_rest_2(stock);
 	return (line);
 }

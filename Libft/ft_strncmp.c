@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rizqy <rizqy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/14 12:08:32 by rarahhal          #+#    #+#             */
-/*   Updated: 2022/06/19 11:51:41 by rarahhal         ###   ########.fr       */
+/*   Created: 2021/11/16 18:55:49 by rarahhal          #+#    #+#             */
+/*   Updated: 2023/02/03 17:34:59 by rizqy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	ft_error(char *error)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	write(2, "Error\n", 6);
-	write(2, error, ft_strlen(error));
-	exit(EXIT_FAILURE);
+	int	i;
+
+	i = 0;
+	while (n && s1[i] && s1[i] == s2[i])
+	{
+		i++;
+		n--;
+	}
+	if (n == 0)
+		return (0);
+	else
+		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

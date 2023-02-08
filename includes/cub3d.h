@@ -39,14 +39,13 @@ typedef struct s_map
 {
 	char		**map;
 	int			size;
-	int			raw;
-	int			col;
+	// int			raw;
+	// int			col;
 	char		*north_texture;
 	char		*south_texture;
 	char		*west_texture;
 	char		*east_texture;
-	char		*file_name;
-	char		*starting_pos;
+	char		starting_pos;
 	t_color		floor_color;
 	t_color		ceilling_color;
 	t_vector	player;
@@ -59,22 +58,9 @@ typedef struct s_game
 	void	*win;
 	int		height;
 	int		width;
+	char	*file_name;
 	char	**map_contant;
 	t_map	map;
-	// void	*img_player;
-	// void	*img_exit;
-	// void	*img_coll;
-	// void	*img_space;
-	// void	*img_wall;
-	// int		img_height;
-	// int		img_width;
-	// char	*map_len;
-	// int		all_coll;
-	// int		coll_cnt;
-	// int		walk_cnt;
-	int		fd;
-	char	*line;
-	char	*fr;
 }	t_game;
 
 // libft
@@ -84,16 +70,23 @@ char	*get_next_line_2(int fd);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s1);
 void	ft_putnbr(int n);
+char	**ft_split(char const *s, char c);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_atoi(const char *str);
 
 // helper Function
-void	read_map(char *filename, t_game *game);
+void	read_map(t_game *game);
 void	ft_error(char *error);
+void	map_setting(t_game *game);
+void	get_texture(t_game *game);
+int		get_collore(t_game *game);
+void    collect_map(t_game *game, int index);
 
 // map error
 void	check_first_line(char *line);
 void	check_inside_map(char *line);
 void	check_last_line(t_game *game);
 void	check_map(t_game *game);
-void	ft_check_file(char *str, t_game *game);
+void	ft_check_file(t_game *game);
 
 #endif
