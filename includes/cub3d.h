@@ -29,18 +29,11 @@ typedef struct s_vector
 	int	y;
 } t_vector;
 
-// typedef struct texture
-// {
-	
-// };	
-
-
 typedef struct s_map
 {
 	char		**map;
-	int			size;
-	// int			raw;
-	// int			col;
+	int			height;
+	// int		width;
 	char		*north_texture;
 	char		*south_texture;
 	char		*west_texture;
@@ -56,10 +49,9 @@ typedef struct s_game
 {
 	void	*mlx;
 	void	*win;
-	int		height;
-	int		width;
-	char	*file_name;
 	char	**map_contant;
+	int		size;
+	char	*file_name;
 	t_map	map;
 }	t_game;
 
@@ -74,19 +66,14 @@ char	**ft_split(char const *s, char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_atoi(const char *str);
 
-// helper Function
+// parser Function
+void	ft_check_file(t_game *game);
 void	read_map(t_game *game);
 void	ft_error(char *error);
 void	map_setting(t_game *game);
 void	get_texture(t_game *game);
 int		get_collore(t_game *game);
 void    collect_map(t_game *game, int index);
-
-// map error
-void	check_first_line(char *line);
-void	check_inside_map(char *line);
-void	check_last_line(t_game *game);
-void	check_map(t_game *game);
-void	ft_check_file(t_game *game);
+void    check_map(t_map map);
 
 #endif

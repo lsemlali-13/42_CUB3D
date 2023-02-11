@@ -6,11 +6,11 @@
 /*   By: rizqy <rizqy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 13:52:14 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/01/27 13:58:25 by rizqy            ###   ########.fr       */
+/*   Updated: 2023/02/11 20:02:06 by rizqy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/get_next_line.h"
+#include "../includes/get_next_line.h"
 
 char	*join_and_free_2(char *save, char *buffer)
 {

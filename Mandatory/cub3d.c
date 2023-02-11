@@ -33,17 +33,19 @@ int	main(int argc, char *argv[])
 	printf("%d\n", game.map.floor_color.g);
 	printf("%d\n", game.map.floor_color.b);
 
-	for(int v = 0; v <= game.map.size; v++)
+	for(int v = 0; v <= game.map.height; v++)
 		printf("%s\n", game.map.map[v]);
+
+	printf("START POSITION: %c(x=%d, y=%d)\n", game.map.starting_pos, game.map.player.x, game.map.player.y);
 	// system("leaks cub3d");
-	game.mlx = mlx_init();
-	game.win = mlx_new_window(game.mlx, 500,
-			500, "cub3D_1337");
-	// xpm_to_img(&game);
-	// setting_img(game);
-	// collect_number(&game);
-	mlx_hook(game.win, X_EVENT_KEY_EXIT, 0, exit_game, &game);
-	// mlx_key_hook(game.win, key_hook, &game);
-	mlx_loop(game.mlx);
+	// game.mlx = mlx_init();
+	// game.win = mlx_new_window(game.mlx, 500,
+	// 		500, "cub3D_1337");
+	// // xpm_to_img(&game);
+	// // setting_img(game);
+	// // collect_number(&game);
+	// mlx_hook(game.win, X_EVENT_KEY_EXIT, 0, exit_game, &game);
+	// // mlx_key_hook(game.win, key_hook, &game);
+	// mlx_loop(game.mlx);
 	return (0);
 }
