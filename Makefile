@@ -6,7 +6,7 @@
 #    By: rizqy <rizqy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/02 22:03:03 by rarahhal          #+#    #+#              #
-#    Updated: 2023/02/11 20:01:50 by rizqy            ###   ########.fr        #
+#    Updated: 2023/02/11 20:06:07 by rizqy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,6 @@ SRCS = Mandatory/cub3d.c \
 		Mandatory/parser/collores.c \
 		Mandatory/parser/collect_map.c \
 		Mandatory/parser/check_map.c \
-		# Mandatory/parser/map_error.c \
 
 # BONUS_SRCS = 
 
