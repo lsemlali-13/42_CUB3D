@@ -297,6 +297,11 @@ void	ddah(t_player *p)
 		p->turny = y;
 		// draw_line(tx, ty, x, y, clr[i], p);
 	}
+	if (is_wallv(p, x / 50, y / 50) == -1)
+	{
+		p->turnx = 10000;
+		p->turny = 10000;
+	}
 }
 void	ddav(t_player *p)
 {
@@ -331,6 +336,11 @@ void	ddav(t_player *p)
 		p->turny = y;
 		// draw_line(tx, ty, x, y, clr[i], p);
 	}
+	if (is_wallv(p, x / 50, y / 50) == -1)
+	{
+		p->turnx = 10000;
+		p->turny = 10000;
+	}
 }
 double	get_dis(double stx, double sty, double endx, double endy)
 {
@@ -349,10 +359,10 @@ void	dda(t_player *p)
 	ver.y = p->turny;
 	dish = get_dis(p->x, p->y, hor.x, hor.y);
 	disv = get_dis(p->x, p->y, ver.x, ver.y);
-	if (dish == 0)
-		dish = 10000;
-	if (disv == 0)
-		disv = 10000;
+	// if (dish == 0)
+	// 	dish = 10000;
+	// if (disv == 0)
+	// 	disv = 10000;
 	p->turnx = dish > disv ? ver.x : hor.x;
 	p->turny = dish > disv ? ver.y : hor.y;
 	// draw_line(p->x, p->y, hor.x, hor.y, YELLOW, p);
@@ -529,7 +539,7 @@ void	move_player(int key, t_player *p)
 		p->y_idx = p->y / 50;
 		ren3d(p);
 	}
-	x = p->x + cos(degtorad(90 + p->rotangle)) * SPEED;
+	x = p->x - cos(degtorad(90 + p->rotangle)) * SPEED;
 	y = p->y + sin(degtorad(90 + p->rotangle)) * SPEED;
 	if (key == RIGHT && p->map[(int)y / 50][(int)x / 50] != '1')
 	{
@@ -537,20 +547,20 @@ void	move_player(int key, t_player *p)
 		clear_wind(p);
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
 		// p->rotangle += 90;
-		p->x += cos(degtorad(90 + p->rotangle)) * SPEED;
+		p->x -= cos(degtorad(90 + p->rotangle)) * SPEED;
 		p->y += sin(degtorad(90 + p->rotangle)) * SPEED;
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, p->x, p->y);
 		p->x_idx = p->x / 50;
 		p->y_idx = p->y / 50;
 		ren3d(p);
 	}
-	x = p->x - cos(degtorad(90 + p->rotangle)) * SPEED;
+	x = p->x + cos(degtorad(90 + p->rotangle)) * SPEED;
 	y = p->y - sin(degtorad(90 + p->rotangle)) * SPEED;
 	if (key == LEFT && p->map[(int)y / 50][(int)x / 50] != '1')
 	{
 		clear_wind(p);
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
-		p->x -= cos(degtorad(90 + p->rotangle)) * SPEED;
+		p->x += cos(degtorad(90 + p->rotangle)) * SPEED;
 		p->y -= sin(degtorad(90 + p->rotangle)) * SPEED;
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, p->x, p->y);
 		p->x_idx = p->x / 50;

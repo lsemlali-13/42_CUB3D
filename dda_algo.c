@@ -163,6 +163,11 @@ void	ddah(t_player *p)
 		p->turny = y;
 		// draw_line(tx, ty, x, y, clr[i], p);
 	}
+	if (is_wallv(p, x / 50, y / 50) == -1)
+	{
+		p->turnx = 10000;
+		p->turny = 10000;
+	}
 }
 void	ddav(t_player *p)
 {
@@ -197,6 +202,11 @@ void	ddav(t_player *p)
 		p->turny = y;
 		// draw_line(tx, ty, x, y, clr[i], p);
 	}
+	if (is_wallv(p, x / 50, y / 50) == -1)
+	{
+		p->turnx = 10000;
+		p->turny = 10000;
+	}
 }
 
 double	get_dis(double stx, double sty, double endx, double endy)
@@ -204,7 +214,7 @@ double	get_dis(double stx, double sty, double endx, double endy)
 	return (sqrt(pow(endx - stx, 2) + pow(endy - sty, 2)));
 }
 
-void	dda(t_player *p)
+void	dda(t_player *p, int *color)
 {
 	t_point hor;
 	t_point ver;
@@ -217,10 +227,22 @@ void	dda(t_player *p)
 	ver.y = p->turny;
 	dish = get_dis(p->x, p->y, hor.x, hor.y);
 	disv = get_dis(p->x, p->y, ver.x, ver.y);
-	if (dish == 0)
-		dish = 10000;
-	if (disv == 0)
-		disv = 10000;
-	p->turnx = dish > disv ? ver.x : hor.x;
-	p->turny = dish > disv ? ver.y : hor.y;
+	if (dish > disv)
+	{
+		if (sin(degtorad(p->rayangle)) > 0)
+			*color = YELLOW;
+		else
+			*color = WHITE;
+		p->turnx = ver.x;
+		p->turny = ver.y;
+	}
+	else
+	{
+		if (cos(degtorad(p->rayangle)) > 0)
+			*color = GREEN;
+		else
+			*color = PURPLE;
+		p->turnx = hor.x;
+		p->turny = hor.y;
+	}
 }

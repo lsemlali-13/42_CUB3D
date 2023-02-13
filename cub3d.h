@@ -2,7 +2,7 @@
 # define CUB3D_H
 
 # define FOV 66.66
-# define SPEED 10
+# define SPEED 5
 # define WIDTH 1000
 # define HEIGHT 500
 
@@ -76,7 +76,7 @@ typedef struct s_player{
 
 
 char	**ft_split(char const *s, char c);
-void	dda(t_player *p);
+void	dda(t_player *p, int *color);
 double	degtorad(double ang);
 
 #endif
