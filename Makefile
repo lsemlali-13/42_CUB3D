@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+         #
+#    By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/02 22:03:03 by rarahhal          #+#    #+#              #
-#    Updated: 2023/02/13 15:43:42 by lsemlali         ###   ########.fr        #
+#    Updated: 2023/02/13 16:36:21 by rarahhal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,6 @@ SRCS = Mandatory/cub3d.c \
 		Mandatory/parser/check_map.c \
 
 # BONUS_SRCS = 
-
 
 LIBFT = Libft/ft_calloc.c \
 		Libft/ft_strchr.c \

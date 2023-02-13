@@ -12,6 +12,7 @@ int	get_file_size(char *filename)
 	while(line)
 	{
 		line = get_next_line(fd);
+		free(line);
 		size++;
 	}
 	return(size - 1);
@@ -54,6 +55,7 @@ void	colect_playr_information(t_game *game)
 	int	j;
 
 	i = 0;
+	game->map->starting_pos = 0;
 	while (game->map->map[i] && i <= game->map->height)
 	{
 		j = 0;
@@ -62,8 +64,10 @@ void	colect_playr_information(t_game *game)
 			if (game->map->map[i][j] != '1' && game->map->map[i][j] != ' '
 				&& game->map->map[i][j] != '0')
 			{
-				if (game->map->starting_pos)
+				if (game->map->starting_pos){
+					printf("%c\n", game->map->starting_pos);
 					ft_error("you mast have one playr!\n");
+				}
 				else
 				{
 					game->map->starting_pos = game->map->map[i][j];
@@ -88,6 +92,9 @@ void	map_setting(t_game *game)
 	game->map->textur = get_texture(game);
 	index = get_collore(game);
 	collect_map(game, index);
+	for (int j = 0; j < game->size; j++)
+		free(game->map_contant[j]);
+	free(game->map_contant);
 	check_map(game->map);
 	colect_playr_information(game);
 }

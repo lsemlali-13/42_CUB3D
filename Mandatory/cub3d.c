@@ -37,15 +37,30 @@ int	main(int argc, char *argv[])
 		printf("%s\n", game->map->map[v]);
 
 	printf("START POSITION: %c(x=%d, y=%d)\n", game->map->starting_pos, game->map->player.x, game->map->player.y);
-	// system("leaks cub3d");
-	// game.mlx = mlx_init();
-	// game.win = mlx_new_window(game.mlx, 500,
+
+	free(game->file_name);
+	free(game->map->textur->north_texture);
+	free(game->map->textur->south_texture);
+	free(game->map->textur->west_texture);
+	free(game->map->textur->east_texture);
+	free(game->map->textur);
+	for(int k = 0; k <= game->map->height; k++)
+		free(game->map->map[k]);
+	free(game->map->map);
+	free(game->map);
+	free(game);
+	// while (1)
+	// {
+	// }
+	
+	// game->mlx = mlx_init();
+	// game->win = mlx_new_window(game->mlx, 500,
 	// 		500, "cub3D_1337");
 	// // xpm_to_img(&game);
 	// // setting_img(game);
 	// // collect_number(&game);
-	// mlx_hook(game.win, X_EVENT_KEY_EXIT, 0, exit_game, &game);
+	// mlx_hook(game->win, X_EVENT_KEY_EXIT, 0, exit_game, &game);
 	// // mlx_key_hook(game.win, key_hook, &game);
-	// mlx_loop(game.mlx);
+	// mlx_loop(game->mlx);
 	return (0);
 }
