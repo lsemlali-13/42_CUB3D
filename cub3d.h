@@ -6,6 +6,10 @@
 # define WIDTH 1000
 # define HEIGHT 500
 
+# define UPR 1
+# define UPL -1
+# define DOWNR 0
+# define DOWNL -2
 # define UP 13
 # define DOWN 1
 # define RIGHT 2
@@ -29,6 +33,14 @@
 # include <math.h>
 # include <stdlib.h>
 # include "mlx/mlx.h"
+
+typedef struct s_point
+{
+	double x;
+	double signx;
+	double y;
+	double signy;
+}	t_point;
 
 typedef struct s_img{
 	void	*img;
@@ -64,5 +76,7 @@ typedef struct s_player{
 
 
 char	**ft_split(char const *s, char c);
+void	dda(t_player *p);
+double	degtorad(double ang);
 
 #endif

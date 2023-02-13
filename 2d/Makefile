@@ -1,5 +1,5 @@
 SRC = main.c libft/ft_split.c
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 
 NAME = CUB3D
 
