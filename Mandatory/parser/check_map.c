@@ -4,10 +4,14 @@ void	check_line(char *line)
 {
     int	i;
 
-	i = -1;
-	while (++i < ft_strlen(line) && line[i])
+	i = 0;
+	//  && i < ft_strlen(line)
+	while (line[i])
+	{
     	if (line[i] != '1' && line[i] != ' ')
             ft_error("Map must be closed/surrounded by walls.\n");
+		i++;
+	}
 }
 
 void	check_characters(char	c)
@@ -46,9 +50,9 @@ void	check_is_closed(char **map, int size)
 	}
 }
 
-void    check_map(t_map map)
-{
-	check_line(map.map[0]);
-	check_is_closed(map.map, map.height);
-	check_line(map.map[map.height]);
+void    check_map(t_map *map)
+{	
+	check_line(map->map[0]);
+	check_is_closed(map->map, map->height);
+	check_line(map->map[map->height]);
 }

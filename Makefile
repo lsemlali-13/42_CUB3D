@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rizqy <rizqy@student.42.fr>                +#+  +:+       +#+         #
+#    By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/02 22:03:03 by rarahhal          #+#    #+#              #
-#    Updated: 2023/02/11 20:06:07 by rizqy            ###   ########.fr        #
+#    Updated: 2023/02/13 15:31:38 by rarahhal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ OBJS_B = $(BONUS_SRCS:.c=.o)
 
 
 $(NAME): $(OBJS) $(OBJS_L)
-	$(CC) $(FLAGS) $(OBJS) $(OBJS_L) -L/mlx_linux mlx_linux/libmlx.a -lXext -lX11 -lbsd -lm -o $(NAME)
+	$(CC) $(FLAGS) -lmlx -framework OpenGL -framework AppKit $(OBJS) $(OBJS_L) -o $(NAME)
 
 # $(NAME_BONUS): $(OBJS_B) $(OBJS_L)
 # 	$(CC) $(FLAGS) $(OBJS_B) $(OBJS_L) -L/mlx_linux mlx_linux/libmlx.a -lXext -lX11 -lbsd -lm -o $(NAME)
@@ -71,4 +71,4 @@ re: fclean
 .PHONY: all bonus clean fclean re
 
 # $(NAME): $(OBJS) $(OBJS_L)
-	# $(CC) $(FLAGS) -lmlx -framework OpenGL -framework AppKit $(OBJS) $(OBJS_L) -o $(NAME)
+	# $(CC) $(FLAGS) $(OBJS) $(OBJS_L) -L/mlx_linux mlx_linux/libmlx.a -lXext -lX11 -lbsd -lm -o $(NAME)

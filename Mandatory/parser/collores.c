@@ -17,17 +17,17 @@ int	get_collore(t_game *game)
 		{
 			stock1 = ft_split(game->map_contant[i], ' ');
 			stock2 = ft_split(stock1[1], ',');
-			game->map.floor_color.r = ft_atoi(stock2[0]);
-			game->map.floor_color.g = ft_atoi(stock2[1]);
-			game->map.floor_color.b = ft_atoi(stock2[2]);
+			game->map->floor_color.r = ft_atoi(stock2[0]);
+			game->map->floor_color.g = ft_atoi(stock2[1]);
+			game->map->floor_color.b = ft_atoi(stock2[2]);
 		}
 		else if (game->map_contant[i][0] == 'C' && game->map_contant[i][1] == ' ')
 		{
 			stock1 = ft_split(game->map_contant[i], ' ');
 			stock2 = ft_split(stock1[1], ',');
-			game->map.ceilling_color.r = ft_atoi(stock2[0]);
-			game->map.ceilling_color.g = ft_atoi(stock2[1]);
-			game->map.ceilling_color.b = ft_atoi(stock2[2]);
+			game->map->ceilling_color.r = ft_atoi(stock2[0]);
+			game->map->ceilling_color.g = ft_atoi(stock2[1]);
+			game->map->ceilling_color.b = ft_atoi(stock2[2]);
 		}
 		else
 			ft_error("collors error\n");

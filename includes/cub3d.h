@@ -1,12 +1,11 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
-# include "../mlx_linux/mlx.h"
+# include <mlx.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-
 
 # define X_EVENT_KEY_EXIT       17
 
@@ -15,6 +14,15 @@
 # define KEY_A      97
 # define KEY_S      115
 # define KEY_D      100
+
+typedef struct s_textur
+{
+	char	*north_texture;
+	char	*south_texture;
+	char	*west_texture;
+	char	*east_texture;
+} t_textur;
+
 
 typedef struct s_color
 {
@@ -33,11 +41,8 @@ typedef struct s_map
 {
 	char		**map;
 	int			height;
+	t_textur	*textur;
 	// int		width;
-	char		*north_texture;
-	char		*south_texture;
-	char		*west_texture;
-	char		*east_texture;
 	char		starting_pos;
 	t_color		floor_color;
 	t_color		ceilling_color;
@@ -52,7 +57,7 @@ typedef struct s_game
 	char	**map_contant;
 	int		size;
 	char	*file_name;
-	t_map	map;
+	t_map	*map;
 }	t_game;
 
 // libft
@@ -67,13 +72,12 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_atoi(const char *str);
 
 // parser Function
-void	ft_check_file(t_game *game);
-void	read_map(t_game *game);
-void	ft_error(char *error);
-void	map_setting(t_game *game);
-void	get_texture(t_game *game);
-int		get_collore(t_game *game);
-void    collect_map(t_game *game, int index);
-void    check_map(t_map map);
+void		ft_check_file(t_game *game);
+void		ft_error(char *error);
+void		map_setting(t_game *game);
+t_textur	*get_texture(t_game *game);
+int			get_collore(t_game *game);
+void    	collect_map(t_game *game, int index);
+void    	check_map(t_map *map);
 
 #endif

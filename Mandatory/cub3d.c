@@ -8,35 +8,35 @@ int	exit_game(t_game *game)
 
 int	main(int argc, char *argv[])
 {
-	t_game	game;
+	t_game	*game;
+	t_map	*map;
 
 	if (argc != 2)
 		ft_error("executed as follows: ./cub3D maps/map/*.cub\n");
-	// game = malloc(sizeof(t_game));
-	// game.map = malloc(sizeof(t_map));
-	game.file_name = ft_strdup(argv[1]);
-	ft_check_file(&game);
-	map_setting(&game);
-	// for (int j = 0; j < game.map.size; j++)
-	// 	printf("%s\n", game.map_contant[j]);
+	game = malloc(sizeof(t_game));
+	game->file_name = ft_strdup(argv[1]);
+	ft_check_file(game);
+	map_setting(game);
+	// for (int j = 0; j < game->size; j++)
+		// printf("%s\n", game->map_contant[j]);
 
-	printf("NO :%s\n", game.map.north_texture);
-	printf("SO :%s\n", game.map.south_texture);
-	printf("WE :%s\n", game.map.west_texture);
-	printf("EA :%s\n", game.map.east_texture);
+	printf("NO :%s\n", game->map->textur->north_texture);
+	printf("SO :%s\n", game->map->textur->south_texture);
+	printf("WE :%s\n", game->map->textur->west_texture);
+	printf("EA :%s\n", game->map->textur->east_texture);
 	printf("CELER\n");
-	printf("%d\n", game.map.ceilling_color.r);
-	printf("%d\n", game.map.ceilling_color.g);
-	printf("%d\n", game.map.ceilling_color.b);
+	printf("%d\n", game->map->ceilling_color.r);
+	printf("%d\n", game->map->ceilling_color.g);
+	printf("%d\n", game->map->ceilling_color.b);
 	printf("FLLOR\n");
-	printf("%d\n", game.map.floor_color.r);
-	printf("%d\n", game.map.floor_color.g);
-	printf("%d\n", game.map.floor_color.b);
+	printf("%d\n", game->map->floor_color.r);
+	printf("%d\n", game->map->floor_color.g);
+	printf("%d\n", game->map->floor_color.b);
 
-	for(int v = 0; v <= game.map.height; v++)
-		printf("%s\n", game.map.map[v]);
+	for(int v = 0; v <= game->map->height; v++)
+		printf("%s\n", game->map->map[v]);
 
-	printf("START POSITION: %c(x=%d, y=%d)\n", game.map.starting_pos, game.map.player.x, game.map.player.y);
+	printf("START POSITION: %c(x=%d, y=%d)\n", game->map->starting_pos, game->map->player.x, game->map->player.y);
 	// system("leaks cub3d");
 	// game.mlx = mlx_init();
 	// game.win = mlx_new_window(game.mlx, 500,
