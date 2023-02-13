@@ -5,7 +5,6 @@ void	check_line(char *line)
     int	i;
 
 	i = 0;
-	//  && i < ft_strlen(line)
 	while (line[i])
 	{
     	if (line[i] != '1' && line[i] != ' ')

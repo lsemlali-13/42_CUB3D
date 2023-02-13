@@ -6,7 +6,7 @@
 #    By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/02 22:03:03 by rarahhal          #+#    #+#              #
-#    Updated: 2023/02/13 16:36:21 by rarahhal         ###   ########.fr        #
+#    Updated: 2023/02/13 21:40:13 by rarahhal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,11 @@ SRCS = Mandatory/cub3d.c \
 		Mandatory/parser/ft_check_file.c \
 		Mandatory/parser/map_setting.c \
 		Mandatory/parser/ft_error.c \
-		Mandatory/parser/texture.c \
-		Mandatory/parser/collores.c \
 		Mandatory/parser/collect_map.c \
 		Mandatory/parser/check_map.c \
+		Mandatory/parser/collect_element.c \
+		# Mandatory/parser/texture.c \
+		# Mandatory/parser/collores.c \
 
 # BONUS_SRCS = 
 

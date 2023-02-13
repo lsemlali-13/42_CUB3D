@@ -17,8 +17,6 @@ int	main(int argc, char *argv[])
 	game->file_name = ft_strdup(argv[1]);
 	ft_check_file(game);
 	map_setting(game);
-	// for (int j = 0; j < game->size; j++)
-		// printf("%s\n", game->map_contant[j]);
 
 	printf("NO :%s\n", game->map->textur->north_texture);
 	printf("SO :%s\n", game->map->textur->south_texture);
@@ -52,7 +50,6 @@ int	main(int argc, char *argv[])
 	// while (1)
 	// {
 	// }
-	
 	// game->mlx = mlx_init();
 	// game->win = mlx_new_window(game->mlx, 500,
 	// 		500, "cub3D_1337");

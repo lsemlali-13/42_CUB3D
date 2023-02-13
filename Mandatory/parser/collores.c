@@ -50,10 +50,7 @@ int	get_collore(t_game *game)
 			game->map->ceilling_color.b = ft_atoi(stock2[2]);
 		}
 		else
-		{
-			free_collor(stock1, stock2);
 			ft_error("collors error\n");
-		}
 		i++;
 		free_collor(stock1, stock2);
 	}

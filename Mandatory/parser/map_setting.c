@@ -65,7 +65,6 @@ void	colect_playr_information(t_game *game)
 				&& game->map->map[i][j] != '0')
 			{
 				if (game->map->starting_pos){
-					printf("%c\n", game->map->starting_pos);
 					ft_error("you mast have one playr!\n");
 				}
 				else
@@ -79,18 +78,22 @@ void	colect_playr_information(t_game *game)
 		}
 		i++;
 	}
-	if (!game->map->starting_pos)
+	if (!game->map->starting_pos){
 		ft_error("playr not fond in map\n");
+	}
 }
+int	collect_element(t_game *game);
 
 void	map_setting(t_game *game)
 {
 	int index;
 
+	index = 0;
 	game->map = malloc(sizeof(t_map));
 	game->map_contant = read_map(game);
-	game->map->textur = get_texture(game);
-	index = get_collore(game);
+	// game->map->textur = get_texture(game);
+	// index = get_collore(game);
+	index = collect_element(game);
 	collect_map(game, index);
 	for (int j = 0; j < game->size; j++)
 		free(game->map_contant[j]);

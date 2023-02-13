@@ -31,10 +31,7 @@ char	*getere(t_game *game, char *what, int go)
 		return(reture);
 	}
 	else
-	{
-		free_textur(stock);
 		ft_error("error in texture\n");
-	}
 	return(NULL);
 }
 
