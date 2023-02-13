@@ -1,4 +1,4 @@
-SRC = main.c libft/ft_split.c
+SRC = main.c libft/ft_split.c dda_algo.c
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 
 NAME = CUB3D

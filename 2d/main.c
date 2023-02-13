@@ -1,8 +1,12 @@
 #include "cub3d.h"
 
-double	degrees_to_radians(int deg)
+double	degtorad(double ang)
 {
-	return (deg * M_PI / 180);
+	while (ang < 0)
+		ang += 360.0;
+	while (ang >= 360)
+		ang -= 360.0;
+	return (ang * M_PI / 180);
 }
 
 char	**read_map(int fd)
@@ -20,18 +24,214 @@ char	**read_map(int fd)
 // 	*(unsigned int*)dst = color;
 // }
 
-int draw_line(t_player *p, int tox, int toy, int color)
+// t_point	get_sign(double ang)
+// {
+// 	t_point point;
+
+// 	point.x = 0;
+// 	point.y = 0;
+// 	point.signx = 1;
+// 	point.signy = 1;
+// 	if (degtorad(ang) >= 0 && degtorad(ang) < M_PI / 2)
+// 	{
+// 		point.x = 50;
+// 		point.signy = -1;
+// 	}
+// 	else if (degtorad(ang) >= M_PI / 2 && degtorad(ang) < M_PI)
+// 	{
+// 		point.x = -50;
+// 		point.signx = -1;
+// 		point.signy = -1;
+// 	}
+// 	else if (degtorad(ang) >= M_PI && degtorad(ang) < 3 * (M_PI / 2))
+// 	{
+// 		point.x = -50;
+// 		point.signx = -1;
+// 	}
+// 	else
+// 	{
+// 		point.x = 50;
+// 		// point.signx = -1;
+// 	}
+// 	return (point);
+// }
+
+t_point	get_hsign(double ang)
 {
-	double dx = tox - p->x;
-	double dy = toy - p->y;
+	t_point point;
+
+	point.x = 0;
+	point.y = 0;
+	point.signx = 1;
+	point.signy = 1;
+	if (degtorad(ang) >= 0 && degtorad(ang) < M_PI / 2)
+	{
+		point.x = 50;
+		point.signy = -1;
+	}
+	else if (degtorad(ang) >= M_PI / 2 && degtorad(ang) < M_PI)
+	{
+		// point.x = -50;
+		point.signx = -1;
+		point.signy = -1;
+	}
+	else if (degtorad(ang) >= M_PI && degtorad(ang) < 3 * (M_PI / 2))
+	{
+		// point.x = -50;z
+		point.signx = -1;
+	}
+	else
+	{
+		point.x = 50;
+		// point.signx = -1;
+	}
+	return (point);
+}
+
+t_point	get_dirh(double ang)
+{
+	t_point point;
+
+	point.x = 0;
+	point.y = 0;
+	// if (degtorad(ang) >= 0 && degtorad(ang) < M_PI / 2)
+	// 	point.y = -1;
+	if (degtorad(ang) >= M_PI / 2 && degtorad(ang) < M_PI)
+		point.x = -1;
+	if (degtorad(ang) >= M_PI && degtorad(ang) < 3 * (M_PI / 2))
+		point.x = -1;
+	return (point);
+}
+
+t_point	get_dirv(double ang)
+{
+	t_point point;
+
+	point.x = 0;
+	point.y = 0;
+	if (degtorad(ang) >= 0 && degtorad(ang) < M_PI / 2)
+		point.y = -1;
+	if (degtorad(ang) >= M_PI / 2 && degtorad(ang) < M_PI)
+		point.y = -1;
+	return (point);
+}
+
+t_point	get_vsign(double ang)
+{
+	t_point point;
+
+	point.x = 0;
+	point.y = 0;
+	point.signx = 1;
+	point.signy = 1;
+	if (degtorad(ang) >= 0 && degtorad(ang) < M_PI / 2)
+	{
+		// point.y = -50;
+		point.signy = -1;
+	}
+	else if (degtorad(ang) >= M_PI / 2 && degtorad(ang) < M_PI)
+	{
+		// point.y = -50;
+		point.signx = -1;
+		point.signy = -1;
+	}
+	else if (degtorad(ang) >= M_PI && degtorad(ang) < 3 * (M_PI / 2))
+	{
+		point.signx = -1;
+		point.y = 50;
+	}
+	else
+	{
+		point.y = 50;
+	}
+	return (point);
+}
+
+int	is_wallh(t_player *p, int x, int y)
+{
+	t_point inc;
+
+	inc = get_dirh(p->rayangle);
+	x += inc.x;
+	y += inc.y;
+	int check = x < WIDTH / 50 && y < HEIGHT / 50 && x >= 0 && y >= 0;
+	if (!check)
+		return (-1);
+	if (check && p->map[y][x] == '1')
+		return (1);
+	return (0);
+}
+
+int	is_wallv(t_player *p, int x, int y)
+{
+	t_point inc;
+
+	inc = get_dirv(p->rayangle);
+	x += inc.x;
+	y += inc.y;
+	int check = x < WIDTH / 50 && y < HEIGHT / 50 && x >= 0 && y >= 0;
+	if (!check)
+		return (-1);
+	if (check && p->map[y][x] == '1')
+		return (1);
+	return (0);
+}
+
+// void	ddah(t_player *p)
+// {
+// 	double	hy = floor(p->y / 50) * 50.0;
+// 	double	hx = p->x;
+// 	double	sx = 50 / tan(degtorad(p->rayangle));
+// 	double	sy = 50;
+
+// 	if (hy != p->y)
+// 		hx = p->x + ((hy - p->y) / tan(degtorad(p->rayangle)));
+// 	if (get_dir(p->rayangle) == DOWNR || get_dir(p->rayangle) == DOWNL)
+// 		hy += 50;
+// 	if (get_dir(p->rayangle) == UPR || get_dir(p->rayangle) == UPL)
+// 		sy *= -1;
+// 	if ((get_dir(p->rayangle) == DOWNL || get_dir(p->rayangle) == UPL) && sx > 0)
+// 		sx *= -1;
+// 	if ((get_dir(p->rayangle) == DOWNR || get_dir(p->rayangle) == UPR) && sx < 0)
+// 		sx *= -1;
+// 	p->turnx = hx;
+// 	p->turny = hy;
+
+// 	if (get_dir(p->rayangle) == UPR || get_dir(p->rayangle) == UPL)
+// 		(p->turny)--;
+	
+// 	while (p->turnx < WIDTH && p->turny < HEIGHT && p->turnx >= 0 && p->turny >= 0)
+// 	{
+// 		if (is_wall(p, p->turnx / 50, p->turny / 50))
+// 			break ;
+// 		p->turnx += sx;
+// 		p->turny += sy;
+// 	}
+// }
+
+
+void	my_pixel_put(t_img *data, int x, int y, int color)
+{
+	char *dst;
+
+	if(x >= WIDTH || y >= HEIGHT)
+		return ;
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
+int draw_line(double x1, double y1, double tox, double toy, int color, t_player *p)
+{
+	double dx = tox - x1;
+	double dy = toy - y1;
 	int pxs = sqrt((dx * dx) + (dy * dy));
 	dx /= pxs;
 	dy /= pxs;
-	double px = p->x;
-	double py = p->y;
-	while (pxs && py < 500)
+	double px = x1;
+	double py = y1;
+	while (pxs)
 	{
-		mlx_pixel_put(p->win->mlx_p, p->win->mlx_w, px, py, color);
+        mlx_pixel_put(p->win->mlx_p, p->win->mlx_w, px, py, color);
 		px += dx;
 		py += dy;
 		--pxs;
@@ -39,22 +239,153 @@ int draw_line(t_player *p, int tox, int toy, int color)
 	return (0);
 }
 
+// void draw_line2(int x1, int y1, int x2, int y2, int color, t_player *p)
+// {
+//     double dx = abs(x2 - x1);
+//     double dy = abs(y2 - y1);
+//     double x = x1;
+//     double y = y1;
+//     double sx = x1 < x2 ? 1 : -1;
+//     double sy = y1 < y2 ? 1 : -1;
+//     double err = dx - dy;
+
+//     while (x != x2 || y != y2) {
+//         mlx_pixel_put(p->win->mlx_p, p->win->mlx_w, x, y, color);
+//         int e2 = 2 * err;
+//         if (e2 > -dy) {
+//             err -= dy;
+//             x += sx;
+//         }
+//         if (e2 < dx) {
+//             err += dx;
+//             y += sy;
+//         }
+//     }
+//     mlx_pixel_put(p->win->mlx_p, p->win->mlx_w, x, y, color);
+// }
+
+void	ddah(t_player *p)
+{
+	// double dx = 50 / cos(degtorad(p->rayangle));
+	double hx = 50, hy;
+	t_point inc = get_hsign(p->rayangle);
+	double x = floor(p->turnx / 50) * 50 + inc.x, y;
+	hy = fabs(fabs(x - p->x) * tan(degtorad(p->rayangle)));
+	y = p->turny + (hy * inc.signy);
+	hy = fabs(50 * tan(degtorad(p->rayangle)));
+	double tx, ty;
+	// int clr[2] =  {ORANGE, GREEN};
+	int i = 0;
+	tx = p->x;
+	ty = p->y;
+	int k = 0;
+	while (!is_wallh(p, x / 50, y / 50))
+	{
+		// draw_line(tx, ty, x, y, clr[i], p);
+		tx = x;
+		ty = y;
+		x += hx * inc.signx;
+		y += hy * inc.signy;
+		p->turnx = x;
+		p->turny = y;
+		i = (i == 0 ? 1 : 0);
+		k = -1;
+	}
+	if (is_wallh(p, x / 50, y / 50) == 1)
+	{
+		p->turnx = x;
+		p->turny = y;
+		// draw_line(tx, ty, x, y, clr[i], p);
+	}
+}
+void	ddav(t_player *p)
+{
+	// double dx = 50 / sin(degtorad(p->rayangle));
+	double hx, hy = 50;
+	t_point inc = get_vsign(p->rayangle);
+	double y = floor(p->y / 50) * 50 + inc.y, x;
+	hx = fabs(fabs(p->y - y) / tan(degtorad(p->rayangle)));
+	x = p->x + (hx * inc.signx);
+	hx = fabs(50 / tan(degtorad(p->rayangle)));
+	double tx, ty;
+	// int clr[2] =  {YELLOW, RED};
+	int i = 0;
+	tx = p->x;
+	ty = p->y;
+	int k = 0;
+	while (!is_wallv(p, x / 50, y / 50))
+	{
+		// draw_line(tx, ty, x, y, clr[i], p);
+		tx = x;
+		ty = y;
+		x += hx * inc.signx;
+		y += hy * inc.signy;
+		p->turnx = x;
+		p->turny = y;
+		i = (i == 0 ? 1 : 0);
+		k = -1;
+	}
+	if (is_wallv(p, x / 50, y / 50) == 1)
+	{
+		p->turnx = x;
+		p->turny = y;
+		// draw_line(tx, ty, x, y, clr[i], p);
+	}
+}
+double	get_dis(double stx, double sty, double endx, double endy)
+{
+	return (sqrt(pow(endx - stx, 2) + pow(endy - sty, 2)));
+}
+void	dda(t_player *p)
+{
+	t_point hor;
+	t_point ver;
+	double dish, disv;
+	ddah(p);
+	hor.x = p->turnx;
+	hor.y = p->turny;
+	ddav(p);
+	ver.x = p->turnx;
+	ver.y = p->turny;
+	dish = get_dis(p->x, p->y, hor.x, hor.y);
+	disv = get_dis(p->x, p->y, ver.x, ver.y);
+	if (dish == 0)
+		dish = 10000;
+	if (disv == 0)
+		disv = 10000;
+	p->turnx = dish > disv ? ver.x : hor.x;
+	p->turny = dish > disv ? ver.y : hor.y;
+	// draw_line(p->x, p->y, hor.x, hor.y, YELLOW, p);
+	// draw_line(p->x, p->y, ver.x, ver.y, RED, p);
+	// draw_line(p->x, p->y, p->turnx, p->turny, BLUE, p);
+}
 
 void	ren3d(t_player *p)
 {
-	double ang = p->rotangle - (FOV / 2);
-	t_player tmp = *p;
+	p->rayangle = p->rotangle - (FOV / 2);
+	// t_player tmp = *p;
+	// t_img *p_img;
+	// p_img = malloc(sizeof(t_img));
+	// p_img->img = mlx_new_image(p->win->mlx_p, 1000, 500);
+	// p_img->addr = mlx_get_data_addr(p_img->img, &(p_img->bits_per_pixel), &(p_img->line_length), &(p_img->endian));
 
+	double rcos;
+	double rsin;
 	for (int i = 0; i < 1000; i++)
 	{
 		p->turnx = p->x;
 		p->turny = p->y;
-		while (p->map[(int)p->turny / 50][(int)p->turnx / 50] != '1')
-		{
-			p->turnx += cos(degrees_to_radians(ang));
-			p->turny += sin(degrees_to_radians(ang));
-		}
-		draw_line(&tmp, p->turnx, p->turny, BLUE);
+		rcos = cos(degtorad(p->rayangle)) / 20;
+		rsin = sin(degtorad(p->rayangle)) / 20;
+		// while (p->map[(int)p->turny / 50][(int)p->turnx / 50] != '1')
+		// {
+		// 	p->turnx += rcos;
+		// 	p->turny += rsin;
+		// }
+		dda(p);
+		draw_line(p->x, p->y, p->turnx, p->turny, BLUE, p);
+		// ddah(p);
+		// draw_line(p->x, p->y, p->turnx, p->turny, YELLOW, p);
 		// double dis = sqrt(pow(p->x - p->turnx, 2) + pow(p->y - p->turny, 2));
 		// double wallh = (50 / dis) * (250 / 2);
 		// tmp.x = i;
@@ -64,8 +395,9 @@ void	ren3d(t_player *p)
 		// draw_line(&tmp, i, 250 + wallh, YELLOW);
 		// tmp.y = 250 + wallh;
 		// draw_line(&tmp, i, 500, RED);
-		ang += FOV / 1000.0;
+		p->rayangle += FOV / 1000.0;
 	}
+	// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p_img->img, 0, 0);
 }
 
 // void draw_line(t_player *p, int x2, int y2) {
@@ -158,12 +490,11 @@ void	create_wind(char **map, t_player *p)
 				p->rotangle = 0;
 				p->turnx = x;
 				p->turny = y;
-				mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, x, y);
-				mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, x, y);
+				// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, x, y);
 			}
-			else {
-				mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, x, y);
-			}
+			// else {
+			// 	mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, x, y);
+			// }
 			j++;
 			x += 50;
 		}
@@ -174,52 +505,53 @@ void	create_wind(char **map, t_player *p)
 
 void	move_player(int key, t_player *p)
 {
-	double x = p->x + cos(degrees_to_radians(p->rotangle)) * SPEED;
-	double y = p->y + sin(degrees_to_radians(p->rotangle)) * SPEED;
+	double x = p->x + cos(degtorad(p->rotangle)) * SPEED;
+	double y = p->y - sin(degtorad(p->rotangle)) * SPEED;
 	if (key == UP && p->map[(int)y / 50][(int)x / 50] != '1')
 	{
 		clear_wind(p);
-		p->x += cos(degrees_to_radians(p->rotangle)) * SPEED;
-		p->y += sin(degrees_to_radians(p->rotangle)) * SPEED;
+		p->x += cos(degtorad(p->rotangle)) * SPEED;
+		p->y -= sin(degtorad(p->rotangle)) * SPEED;
 		p->x_idx = p->x / 50;
 		p->y_idx = p->y / 50;
 		ren3d(p);
 	}
-	x = p->x - cos(degrees_to_radians(p->rotangle)) * SPEED;
-	y = p->y - sin(degrees_to_radians(p->rotangle)) * SPEED;
+	x = p->x - cos(degtorad(p->rotangle)) * SPEED;
+	y = p->y + sin(degtorad(p->rotangle)) * SPEED;
 	if (key == DOWN && p->map[(int)y / 50][(int)x / 50] != '1')
 	{
 		clear_wind(p);
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
-		p->x -= cos(degrees_to_radians(p->rotangle)) * SPEED;
-		p->y -= sin(degrees_to_radians(p->rotangle)) * SPEED;
+		p->x -= cos(degtorad(p->rotangle)) * SPEED;
+		p->y += sin(degtorad(p->rotangle)) * SPEED;
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, p->x, p->y);
 		p->x_idx = p->x / 50;
 		p->y_idx = p->y / 50;
 		ren3d(p);
 	}
-	x = p->x + cos(degrees_to_radians(90 + p->rotangle)) * SPEED;
-	y = p->y + sin(degrees_to_radians(90 + p->rotangle)) * SPEED;
+	x = p->x + cos(degtorad(90 + p->rotangle)) * SPEED;
+	y = p->y + sin(degtorad(90 + p->rotangle)) * SPEED;
 	if (key == RIGHT && p->map[(int)y / 50][(int)x / 50] != '1')
 	{
+		printf("%f, %f --- %f, %f\n", p->x, p->y, x, y);
 		clear_wind(p);
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
 		// p->rotangle += 90;
-		p->x += cos(degrees_to_radians(90 + p->rotangle)) * SPEED;
-		p->y += sin(degrees_to_radians(90 + p->rotangle)) * SPEED;
+		p->x += cos(degtorad(90 + p->rotangle)) * SPEED;
+		p->y += sin(degtorad(90 + p->rotangle)) * SPEED;
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, p->x, p->y);
 		p->x_idx = p->x / 50;
 		p->y_idx = p->y / 50;
 		ren3d(p);
 	}
-	x = p->x - cos(degrees_to_radians(90 + p->rotangle)) * SPEED;
-	y = p->y - sin(degrees_to_radians(90 + p->rotangle)) * SPEED;
+	x = p->x - cos(degtorad(90 + p->rotangle)) * SPEED;
+	y = p->y - sin(degtorad(90 + p->rotangle)) * SPEED;
 	if (key == LEFT && p->map[(int)y / 50][(int)x / 50] != '1')
 	{
 		clear_wind(p);
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
-		p->x -= cos(degrees_to_radians(90 + p->rotangle)) * SPEED;
-		p->y -= sin(degrees_to_radians(90 + p->rotangle)) * SPEED;
+		p->x -= cos(degtorad(90 + p->rotangle)) * SPEED;
+		p->y -= sin(degtorad(90 + p->rotangle)) * SPEED;
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, p->x, p->y);
 		p->x_idx = p->x / 50;
 		p->y_idx = p->y / 50;
@@ -228,13 +560,13 @@ void	move_player(int key, t_player *p)
 	if (key == ROTR)
 	{
 		clear_wind(p);
-		p->rotangle += 10;
+		p->rotangle -= 5;
 		ren3d(p);
 	}
 	if (key == ROTL)
 	{
 		clear_wind(p);
-		p->rotangle -= 10;
+		p->rotangle += 5;
 		ren3d(p);
 	}
 }
@@ -278,14 +610,14 @@ int main()
 // {
 // 	void	*mlx;
 // 	void	*mlx_win;
+// 	int *h = 50 / , *w = 5;
 // 	t_img	img;
 
 // 	mlx = mlx_init();
 // 	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-// 	img.img = mlx_new_image(mlx, 1920, 1080);
-// 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-// 								&img.endian);
-// 	my_mlx_pixel_put(&img, 5, 5, BLUE);
+
+// 	img = mlx_xpm_file_to_image(mlx, "textures/player.xpm", w, h);
 // 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 // 	mlx_loop(mlx);
 // }
+
