@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rizqy <rizqy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 13:07:33 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/04 23:43:11 by rizqy            ###   ########.fr       */
+/*   Updated: 2023/02/14 14:27:39 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,22 @@
 int	ft_atoi(const char *str)
 {
 	int	res;
-	int	sign;
+	int	i;
 
 	res = 0;
-	sign = 1;
-	while (*str == 32 || (*str >= 9 && *str <= 13))
-		str++;
-	if (*str == '-')
+	i = 0;
+	while (str[i])
 	{
-		sign *= -1;
-		str++;
-	}
-	else if (*str == '+')
-	{
-		sign *= +1;
-		str++;
+		if (str[i] < 48 || str[i] > 57)
+			ft_error("error in number of collors\n");
+		i++;
 	}
 	while (*str >= '0' && *str <= '9')
 	{
 		res = res * 10 + *str - '0';
 		str++;
 	}
-	return (res * sign);
+	if (res > 255)
+		ft_error("error in number of collors\n");
+	return (res);
 }

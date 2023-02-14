@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_check_file.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/14 12:02:19 by rarahhal          #+#    #+#             */
+/*   Updated: 2023/02/14 12:03:37 by rarahhal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub3d.h"
 #include "../../includes/get_next_line.h"
 
@@ -17,6 +29,7 @@ void	ft_check_file(t_game *game)
 {
 	char	*line;
 	int		fd;
+
 	ft_check_extention(game->file_name);
 	fd = open(game->file_name, O_RDONLY);
 	if (fd <= 0)

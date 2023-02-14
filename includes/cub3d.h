@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/14 12:20:11 by rarahhal          #+#    #+#             */
+/*   Updated: 2023/02/14 13:02:49 by rarahhal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
-#define CUB3D_H
+# define CUB3D_H
 
 # include <mlx.h>
 # include <stdio.h>
@@ -21,34 +33,32 @@ typedef struct s_textur
 	char	*south_texture;
 	char	*west_texture;
 	char	*east_texture;
-} t_textur;
-
+}	t_textur;
 
 typedef struct s_color
 {
 	int	r;
 	int	g;
 	int	b;
-} t_color;
+}	t_color;
 
 typedef struct s_vector
 {
 	int	x;
 	int	y;
-} t_vector;
+}	t_vector;
 
 typedef struct s_map
 {
 	char		**map;
 	int			height;
 	t_textur	*textur;
-	// int		width;
 	char		starting_pos;
-	t_color		floor_color;
-	t_color		ceilling_color;
+	t_color		*floor_color;
+	t_color		*ceilling_color;
 	t_vector	player;
 
-} t_map;
+}	t_map;
 
 typedef struct s_game
 {
@@ -72,12 +82,15 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_atoi(const char *str);
 
 // parser Function
-void		ft_check_file(t_game *game);
-void		ft_error(char *error);
-void		map_setting(t_game *game);
-t_textur	*get_texture(t_game *game);
-int			get_collore(t_game *game);
-void    	collect_map(t_game *game, int index);
-void    	check_map(t_map *map);
+void	ft_check_file(t_game *game);
+void	ft_error(char *error);
+void	map_setting(t_game *game);
+int		collect_element(t_game *game);
+void	hndl_collore(t_game *game, int i);
+void	hndl_textur(t_game *game, int i);
+void	collect_map(t_game *game, int index);
+void	check_map(t_map *map);
+// t_textur	*get_texture(t_game *game);
+// int			get_collore(t_game *game);
 
 #endif
