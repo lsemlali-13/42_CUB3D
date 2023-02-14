@@ -6,7 +6,7 @@
 /*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:18:03 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/14 14:42:33 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/14 15:09:36 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,29 @@ void	textur_extention(char *str)
 	ft_error("error in textur extantion\n");
 }
 
+void	check_existing(char *str)
+{
+	int	fd;
+
+	fd = open(str, O_RDONLY);
+	if (fd < 0)
+	{
+		close(fd);
+		ft_error("error in textur files\n");
+	}
+	close(fd);
+}
+
 void	check_texture(t_textur *textur)
 {
 	textur_extention(textur->north_texture);
 	textur_extention(textur->south_texture);
 	textur_extention(textur->west_texture);
 	textur_extention(textur->east_texture);
-	// check textures files is exixt
+	check_existing(textur->north_texture);
+	check_existing(textur->south_texture);
+	check_existing(textur->west_texture);
+	check_existing(textur->east_texture);
 }
 
 void	free_textur(char **stock1)
@@ -54,6 +70,8 @@ char	*getere(t_game *game, char *what, int go)
 	stock = ft_split(game->map_contant[go], ' ');
 	if (ft_strncmp(stock[0], what, ft_strlen(stock[0])) == 0 && stock[1])
 	{
+		if (stock[2])
+			ft_error("error in textur\n");
 		reture = ft_strdup(stock[1]);
 		free_textur(stock);
 		return (reture);
