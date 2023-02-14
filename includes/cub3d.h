@@ -6,7 +6,7 @@
 /*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:20:11 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/14 13:02:49 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/14 14:36:02 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	map_setting(t_game *game);
 int		collect_element(t_game *game);
 void	hndl_collore(t_game *game, int i);
 void	hndl_textur(t_game *game, int i);
+void	check_texture(t_textur *textur);
 void	collect_map(t_game *game, int index);
 void	check_map(t_map *map);
 // t_textur	*get_texture(t_game *game);

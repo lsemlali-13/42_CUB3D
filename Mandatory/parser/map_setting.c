@@ -6,7 +6,7 @@
 /*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:04:29 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/14 12:17:02 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/14 14:41:38 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	map_setting(t_game *game)
 	game->map = malloc(sizeof(t_map));
 	game->map_contant = read_map(game);
 	index = collect_element(game);
+	check_texture(game->map->textur);
 	collect_map(game, index);
 	index = -1;
 	while (++index < game->size)

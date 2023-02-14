@@ -6,11 +6,32 @@
 /*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:18:03 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/14 12:18:53 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/14 14:42:33 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+void	textur_extention(char *str)
+{
+	int	n;
+
+	n = ft_strlen(str);
+	if (str[n - 4] == '.' && str[n - 3] == 'x'
+		&& str[n - 2] == 'p'
+		&& str[n - 1] == 'm')
+		return ;
+	ft_error("error in textur extantion\n");
+}
+
+void	check_texture(t_textur *textur)
+{
+	textur_extention(textur->north_texture);
+	textur_extention(textur->south_texture);
+	textur_extention(textur->west_texture);
+	textur_extention(textur->east_texture);
+	// check textures files is exixt
+}
 
 void	free_textur(char **stock1)
 {
@@ -65,11 +86,6 @@ void	hndl_textur(t_game *game, int i)
 // 		i++;
 // 	}
 // 	free(stock1);
-// }
-
-// void	check_texture(t_map *map)
-// {
-// 	// check textures files is exixt
 // }
 
 // char	*getere(t_game *game, char *what, int go)
