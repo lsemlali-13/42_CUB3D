@@ -19,23 +19,23 @@ t_point	get_hsign(double ang)
 	point.signy = 1;
 	if (degtorad(ang) >= 0 && degtorad(ang) < M_PI / 2)
 	{
-		point.x = 50;
+		point.x = TILE_SIZE;
 		point.signy = -1;
 	}
 	else if (degtorad(ang) >= M_PI / 2 && degtorad(ang) < M_PI)
 	{
-		// point.x = -50;
+		// point.x = -TILE_SIZE;
 		point.signx = -1;
 		point.signy = -1;
 	}
 	else if (degtorad(ang) >= M_PI && degtorad(ang) < 3 * (M_PI / 2))
 	{
-		// point.x = -50;
+		// point.x = -TILE_SIZE;
 		point.signx = -1;
 	}
 	else
 	{
-		point.x = 50;
+		point.x = TILE_SIZE;
 		// point.signx = -1;
 	}
 	return (point);
@@ -79,23 +79,23 @@ t_point	get_vsign(double ang)
 	point.signy = 1;
 	if (degtorad(ang) >= 0 && degtorad(ang) < M_PI / 2)
 	{
-		// point.y = -50;
+		// point.y = -TILE_SIZE;
 		point.signy = -1;
 	}
 	else if (degtorad(ang) >= M_PI / 2 && degtorad(ang) < M_PI)
 	{
-		// point.y = -50;
+		// point.y = -TILE_SIZE;
 		point.signx = -1;
 		point.signy = -1;
 	}
 	else if (degtorad(ang) >= M_PI && degtorad(ang) < 3 * (M_PI / 2))
 	{
 		point.signx = -1;
-		point.y = 50;
+		point.y = TILE_SIZE;
 	}
 	else
 	{
-		point.y = 50;
+		point.y = TILE_SIZE;
 	}
 	return (point);
 }
@@ -107,7 +107,7 @@ int	is_wallh(t_player *p, int x, int y)
 	inc = get_dirh(p->rayangle);
 	x += inc.x;
 	y += inc.y;
-	int check = x < p->map_width / 50 && y < p->map_height / 50 && x >= 0 && y >= 0;
+	int check = x < p->map_width / TILE_SIZE && y < p->map_height / TILE_SIZE && x >= 0 && y >= 0;
 	if (!check)
 		return (-1);
 	if (check && p->map[y][x] == '1')
@@ -122,7 +122,7 @@ int	is_wallv(t_player *p, int x, int y)
 	inc = get_dirv(p->rayangle);
 	x += inc.x;
 	y += inc.y;
-	int check = x < p->map_width / 50 && y < p->map_height / 50 && x >= 0 && y >= 0;
+	int check = x < p->map_width / TILE_SIZE && y < p->map_height / TILE_SIZE && x >= 0 && y >= 0;
 	if (!check)
 		return (-1);
 	if (check && p->map[y][x] == '1')
@@ -132,20 +132,20 @@ int	is_wallv(t_player *p, int x, int y)
 
 void	ddah(t_player *p)
 {
-	// double dx = 50 / cos(degtorad(p->rayangle));
-	double hx = 50, hy;
+	// double dx = TILE_SIZE / cos(degtorad(p->rayangle));
+	double hx = TILE_SIZE, hy;
 	t_point inc = get_hsign(p->rayangle);
-	double x = floor(p->turnx / 50) * 50 + inc.x, y;
+	double x = floor(p->turnx / TILE_SIZE) * TILE_SIZE + inc.x, y;
 	hy = fabs(fabs(x - p->x) * tan(degtorad(p->rayangle)));
 	y = p->turny + (hy * inc.signy);
-	hy = fabs(50 * tan(degtorad(p->rayangle)));
+	hy = fabs(TILE_SIZE * tan(degtorad(p->rayangle)));
 	double tx, ty;
 	// int clr[2] =  {ORANGE, GREEN};
 	int i = 0;
 	tx = p->x;
 	ty = p->y;
 	int k = 0;
-	while (!is_wallh(p, x / 50, y / 50))
+	while (!is_wallh(p, x / TILE_SIZE, y / TILE_SIZE))
 	{
 		// draw_line(tx, ty, x, y, clr[i], p);
 		tx = x;
@@ -157,13 +157,13 @@ void	ddah(t_player *p)
 		i = (i == 0 ? 1 : 0);
 		k = -1;
 	}
-	if (is_wallh(p, x / 50, y / 50) == 1)
+	if (is_wallh(p, x / TILE_SIZE, y / TILE_SIZE) == 1)
 	{
 		p->turnx = x;
 		p->turny = y;
 		// draw_line(tx, ty, x, y, clr[i], p);
 	}
-	if (is_wallv(p, x / 50, y / 50) == -1)
+	if (is_wallv(p, x / TILE_SIZE, y / TILE_SIZE) == -1)
 	{
 		p->turnx = WIDTH;
 		p->turny = HEIGHT;
@@ -171,20 +171,20 @@ void	ddah(t_player *p)
 }
 void	ddav(t_player *p)
 {
-	// double dx = 50 / sin(degtorad(p->rayangle));
-	double hx, hy = 50;
+	// double dx = TILE_SIZE / sin(degtorad(p->rayangle));
+	double hx, hy = TILE_SIZE;
 	t_point inc = get_vsign(p->rayangle);
-	double y = floor(p->y / 50) * 50 + inc.y, x;
+	double y = floor(p->y / TILE_SIZE) * TILE_SIZE + inc.y, x;
 	hx = fabs(fabs(p->y - y) / tan(degtorad(p->rayangle)));
 	x = p->x + (hx * inc.signx);
-	hx = fabs(50 / tan(degtorad(p->rayangle)));
+	hx = fabs(TILE_SIZE / tan(degtorad(p->rayangle)));
 	double tx, ty;
 	// int clr[2] =  {YELLOW, RED};
 	int i = 0;
 	tx = p->x;
 	ty = p->y;
 	int k = 0;
-	while (!is_wallv(p, x / 50, y / 50))
+	while (!is_wallv(p, x / TILE_SIZE, y / TILE_SIZE))
 	{
 		// draw_line(tx, ty, x, y, clr[i], p);
 		tx = x;
@@ -196,13 +196,13 @@ void	ddav(t_player *p)
 		i = (i == 0 ? 1 : 0);
 		k = -1;
 	}
-	if (is_wallv(p, x / 50, y / 50) == 1)
+	if (is_wallv(p, x / TILE_SIZE, y / TILE_SIZE) == 1)
 	{
 		p->turnx = x;
 		p->turny = y;
 		// draw_line(tx, ty, x, y, clr[i], p);
 	}
-	if (is_wallv(p, x / 50, y / 50) == -1)
+	if (is_wallv(p, x / TILE_SIZE, y / TILE_SIZE) == -1)
 	{
 		p->turnx = WIDTH;
 		p->turny = HEIGHT;
