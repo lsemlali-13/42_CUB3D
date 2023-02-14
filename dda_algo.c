@@ -107,7 +107,7 @@ int	is_wallh(t_player *p, int x, int y)
 	inc = get_dirh(p->rayangle);
 	x += inc.x;
 	y += inc.y;
-	int check = x < WIDTH / 50 && y < HEIGHT / 50 && x >= 0 && y >= 0;
+	int check = x < p->map_width / 50 && y < p->map_height / 50 && x >= 0 && y >= 0;
 	if (!check)
 		return (-1);
 	if (check && p->map[y][x] == '1')
@@ -122,7 +122,7 @@ int	is_wallv(t_player *p, int x, int y)
 	inc = get_dirv(p->rayangle);
 	x += inc.x;
 	y += inc.y;
-	int check = x < WIDTH / 50 && y < HEIGHT / 50 && x >= 0 && y >= 0;
+	int check = x < p->map_width / 50 && y < p->map_height / 50 && x >= 0 && y >= 0;
 	if (!check)
 		return (-1);
 	if (check && p->map[y][x] == '1')
@@ -165,8 +165,8 @@ void	ddah(t_player *p)
 	}
 	if (is_wallv(p, x / 50, y / 50) == -1)
 	{
-		p->turnx = 10000;
-		p->turny = 10000;
+		p->turnx = WIDTH;
+		p->turny = HEIGHT;
 	}
 }
 void	ddav(t_player *p)
@@ -204,8 +204,8 @@ void	ddav(t_player *p)
 	}
 	if (is_wallv(p, x / 50, y / 50) == -1)
 	{
-		p->turnx = 10000;
-		p->turny = 10000;
+		p->turnx = WIDTH;
+		p->turny = HEIGHT;
 	}
 }
 

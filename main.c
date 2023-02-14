@@ -1,5 +1,15 @@
 #include "cub3d.h"
 
+size_t	ft_strlen(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
 char	**read_map(int fd)
 {
 	char	s[1000];
@@ -34,7 +44,7 @@ void	ren3d(t_player *p)
 
 	t_img *p_img;
 	p_img = malloc(sizeof(t_img));
-	p_img->img = mlx_new_image(p->win->mlx_p, 1000, 500);
+	p_img->img = mlx_new_image(p->win->mlx_p, WIDTH, HEIGHT);
 	p_img->addr = mlx_get_data_addr(p_img->img, &(p_img->bits_per_pixel), &(p_img->line_length), &(p_img->endian));
 	int color;
 	for (int i = 0; i < WIDTH; i++)
@@ -51,10 +61,10 @@ void	ren3d(t_player *p)
 		// 	color = GREEN;
 		// else
 		// 	color = YELLOW;
-		draw_line(i, 0, i, 250 - wallh, BLUE, p_img);
-		draw_line(i, 250 - wallh, i, 250 + wallh, color, p_img);
-		draw_line(i, 250 + wallh, i, 499, BLACK, p_img);
-		p->rayangle += FOV / 1000.0;
+		draw_line(i, 0, i, (HEIGHT / 2) - wallh, BLUE, p_img);
+		draw_line(i, (HEIGHT / 2) - wallh, i, (HEIGHT / 2) + wallh, color, p_img);
+		draw_line(i, (HEIGHT / 2) + wallh, i, HEIGHT - 1, BLACK, p_img);
+		p->rayangle += FOV / WIDTH;
 	}
 	mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p_img->img, 0, 0);
 }
@@ -103,8 +113,6 @@ void	create_wind(char **map, t_player *p)
 		x = 0;
 		while (map[i][j])
 		{
-			// if (map[i][j] == '1')
-			// 	mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_1, x, y);
 			if (map[i][j] == 'p')
 			{
 				p->x = x;
@@ -112,18 +120,15 @@ void	create_wind(char **map, t_player *p)
 				p->rotangle = 0;
 				p->turnx = x;
 				p->turny = y;
-				// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, x, y);
-				// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, x, y);
 			}
-			// else {
-			// 	mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, x, y);
-			// }
 			j++;
 			x += 50;
 		}
 		i++;
 		y += 50;
 	}
+	p->map_width = ft_strlen(map[0]) * 50;
+	p->map_height = i * 50;
 }
 
 void	move_player(int key, t_player *p)
@@ -187,16 +192,12 @@ int main()
 	char		**map;
 
 	p = malloc(sizeof(t_player));
-	p->height = 10;
-	p->width = 10;
 	win = malloc(sizeof(t_win));
 	win->height = 50;
 	win->width = 50;
 	win->mlx_p = mlx_init();
-	win->mlx_w = mlx_new_window(win->mlx_p, WIDTH, HEIGHT, "hello");
-	win->img_0 = mlx_xpm_file_to_image(win->mlx_p, "textures/black.xpm", &win->height, &win->width);
-	win->img_p = mlx_xpm_file_to_image(win->mlx_p, "textures/player.xpm", &p->height, &p->width);
-	win->img_1 = mlx_xpm_file_to_image(win->mlx_p, "textures/gray.xpm", &win->height, &win->width);
+	win->mlx_w = mlx_new_window(win->mlx_p, WIDTH, HEIGHT, "CUB3D");
+	
 	p->win = win;
 	fd = open("maps/map.cub", O_RDWR);
 	map = read_map(fd);

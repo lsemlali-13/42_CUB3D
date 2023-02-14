@@ -2,9 +2,9 @@
 # define CUB3D_H
 
 # define FOV 66.66
-# define SPEED 5
-# define WIDTH 1000
-# define HEIGHT 500
+# define SPEED 10
+# define WIDTH 2000
+# define HEIGHT 1000
 
 # define UPR 1
 # define UPL -1
@@ -62,16 +62,16 @@ typedef struct s_win{
 } t_win;
 
 typedef struct s_player{
-	t_win	*win;
-	char	**map;
+	t_win		*win;
+	char		**map;
 	double		turnx;
 	double		turny;
 	double 		rotangle;
 	double		rayangle;
 	double		x;
 	double		y;
-	int		height;
-	int		width;
+	int			map_height;
+	int			map_width;
 } t_player;
 
 

@@ -1,5 +1,15 @@
 #include "cub3d.h"
 
+size_t	ft_strlen(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
 double	degtorad(double ang)
 {
 	while (ang < 0)
@@ -154,7 +164,7 @@ int	is_wallh(t_player *p, int x, int y)
 	inc = get_dirh(p->rayangle);
 	x += inc.x;
 	y += inc.y;
-	int check = x < WIDTH / 50 && y < HEIGHT / 50 && x >= 0 && y >= 0;
+	int check = x < p->map_width / 50 && y < p->map_height / 50 && x >= 0 && y >= 0;
 	if (!check)
 		return (-1);
 	if (check && p->map[y][x] == '1')
@@ -169,7 +179,7 @@ int	is_wallv(t_player *p, int x, int y)
 	inc = get_dirv(p->rayangle);
 	x += inc.x;
 	y += inc.y;
-	int check = x < WIDTH / 50 && y < HEIGHT / 50 && x >= 0 && y >= 0;
+	int check = x < p->map_width / 50 && y < p->map_height / 50 && x >= 0 && y >= 0;
 	if (!check)
 		return (-1);
 	if (check && p->map[y][x] == '1')
@@ -281,6 +291,7 @@ void	ddah(t_player *p)
 	int k = 0;
 	while (!is_wallh(p, x / 50, y / 50))
 	{
+		printf("hello\n");
 		// draw_line(tx, ty, x, y, clr[i], p);
 		tx = x;
 		ty = y;
@@ -299,8 +310,8 @@ void	ddah(t_player *p)
 	}
 	if (is_wallv(p, x / 50, y / 50) == -1)
 	{
-		p->turnx = 10000;
-		p->turny = 10000;
+		p->turnx = WIDTH;
+		p->turny = HEIGHT;
 	}
 }
 void	ddav(t_player *p)
@@ -338,8 +349,8 @@ void	ddav(t_player *p)
 	}
 	if (is_wallv(p, x / 50, y / 50) == -1)
 	{
-		p->turnx = 10000;
-		p->turny = 10000;
+		p->turnx = WIDTH;
+		p->turny = HEIGHT;
 	}
 }
 double	get_dis(double stx, double sty, double endx, double endy)
@@ -381,7 +392,7 @@ void	ren3d(t_player *p)
 
 	double rcos;
 	double rsin;
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		p->turnx = p->x;
 		p->turny = p->y;
@@ -405,7 +416,7 @@ void	ren3d(t_player *p)
 		// draw_line(&tmp, i, 250 + wallh, YELLOW);
 		// tmp.y = 250 + wallh;
 		// draw_line(&tmp, i, 500, RED);
-		p->rayangle += FOV / 1000.0;
+		p->rayangle += FOV / WIDTH;
 	}
 	// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p_img->img, 0, 0);
 }
@@ -511,6 +522,8 @@ void	create_wind(char **map, t_player *p)
 		i++;
 		y += 50;
 	}
+	p->map_width = ft_strlen(map[0]) * 50;
+	p->map_height = i * 50;
 }
 
 void	move_player(int key, t_player *p)
@@ -615,19 +628,3 @@ int main()
 	mlx_hook(win->mlx_w, 2, 0, key_hook, p);
 	mlx_loop(win->mlx_p);
 }
-
-// int	main(void)
-// {
-// 	void	*mlx;
-// 	void	*mlx_win;
-// 	int *h = 50 / , *w = 5;
-// 	t_img	img;
-
-// 	mlx = mlx_init();
-// 	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-
-// 	img = mlx_xpm_file_to_image(mlx, "textures/player.xpm", w, h);
-// 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-// 	mlx_loop(mlx);
-// }
-
