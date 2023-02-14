@@ -5,6 +5,7 @@
 # define SPEED 10
 # define WIDTH 2000
 # define HEIGHT 1000
+# define TILE_SIZE 50
 
 # define UPR 1
 # define UPL -1

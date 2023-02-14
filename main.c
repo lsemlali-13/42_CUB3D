@@ -53,11 +53,11 @@ void	ren3d(t_player *p)
 		p->turny = p->y;
 		dda(p, &color);
 		double dis = sqrt(pow(p->x - p->turnx, 2.0) + pow(p->y - p->turny, 2.0));
-		dis = dis * cos(degtorad(p->rayangle - p->rotangle));
-		double wallh = roundf((HEIGHT / dis) * 15);
+		dis = (dis + 1) * cos(degtorad(p->rayangle - p->rotangle));
+		double wallh = roundf((HEIGHT / dis) * 20);
 		if (wallh > HEIGHT / 2)
 			wallh = HEIGHT / 2;
-		// if ((int)p->turnx % 50 == 0)
+		// if ((int)p->turnx % TILE_SIZE == 0)
 		// 	color = GREEN;
 		// else
 		// 	color = YELLOW;
@@ -93,10 +93,10 @@ void	clear_wind(t_player *p)
 				mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, x, y);
 			}
 			j++;
-			x += 50;
+			x += TILE_SIZE;
 		}
 		i++;
-		y += 50;
+		y += TILE_SIZE;
 	}
 }
 
@@ -122,44 +122,44 @@ void	create_wind(char **map, t_player *p)
 				p->turny = y;
 			}
 			j++;
-			x += 50;
+			x += TILE_SIZE;
 		}
 		i++;
-		y += 50;
+		y += TILE_SIZE;
 	}
-	p->map_width = ft_strlen(map[0]) * 50;
-	p->map_height = i * 50;
+	p->map_width = ft_strlen(map[0]) * TILE_SIZE;
+	p->map_height = i * TILE_SIZE;
 }
 
 void	move_player(int key, t_player *p)
 {
-	double x = p->x + cos(degtorad(p->rotangle)) * SPEED * 3;
-	double y = p->y - sin(degtorad(p->rotangle)) * SPEED * 3;
-	if (key == UP && p->map[(int)y / 50][(int)x / 50] != '1')
+	double x = p->x + cos(degtorad(p->rotangle)) * SPEED;
+	double y = p->y - sin(degtorad(p->rotangle)) * SPEED;
+	if (key == UP && p->map[(int)y / TILE_SIZE][(int)x / TILE_SIZE] != '1')
 	{
 		p->x += cos(degtorad(p->rotangle)) * SPEED;
 		p->y -= sin(degtorad(p->rotangle)) * SPEED;
 		ren3d(p);
 	}
-	x = p->x - cos(degtorad(p->rotangle)) * SPEED * 3;
-	y = p->y + sin(degtorad(p->rotangle)) * SPEED * 3;
-	if (key == DOWN && p->map[(int)y / 50][(int)x / 50] != '1')
+	x = p->x - cos(degtorad(p->rotangle)) * SPEED;
+	y = p->y + sin(degtorad(p->rotangle)) * SPEED;
+	if (key == DOWN && p->map[(int)y / TILE_SIZE][(int)x / TILE_SIZE] != '1')
 	{
 		p->x -= cos(degtorad(p->rotangle)) * SPEED;
 		p->y += sin(degtorad(p->rotangle)) * SPEED;
 		ren3d(p);
 	}
-	x = p->x + cos(degtorad(90 + p->rotangle)) * SPEED * 3;
-	y = p->y - sin(degtorad(90 + p->rotangle)) * SPEED * 3;
-	if (key == RIGHT && p->map[(int)y / 50][(int)x / 50] != '1')
+	x = p->x + cos(degtorad(90 + p->rotangle)) * SPEED;
+	y = p->y - sin(degtorad(90 + p->rotangle)) * SPEED;
+	if (key == RIGHT && p->map[(int)y / TILE_SIZE][(int)x / TILE_SIZE] != '1')
 	{
 		p->x += cos(degtorad(90 + p->rotangle)) * SPEED;
 		p->y -= sin(degtorad(90 + p->rotangle)) * SPEED;
 		ren3d(p);
 	}
-	x = p->x - cos(degtorad(90 + p->rotangle)) * SPEED * 3;
-	y = p->y + sin(degtorad(90 + p->rotangle)) * SPEED * 3;
-	if (key == LEFT && p->map[(int)y / 50][(int)x / 50] != '1')
+	x = p->x - cos(degtorad(90 + p->rotangle)) * SPEED;
+	y = p->y + sin(degtorad(90 + p->rotangle)) * SPEED;
+	if (key == LEFT && p->map[(int)y / TILE_SIZE][(int)x / TILE_SIZE] != '1')
 	{
 		p->x -= cos(degtorad(90 + p->rotangle)) * SPEED;
 		p->y += sin(degtorad(90 + p->rotangle)) * SPEED;
@@ -193,8 +193,8 @@ int main()
 
 	p = malloc(sizeof(t_player));
 	win = malloc(sizeof(t_win));
-	win->height = 50;
-	win->width = 50;
+	win->height = TILE_SIZE;
+	win->width = TILE_SIZE;
 	win->mlx_p = mlx_init();
 	win->mlx_w = mlx_new_window(win->mlx_p, WIDTH, HEIGHT, "CUB3D");
 	
