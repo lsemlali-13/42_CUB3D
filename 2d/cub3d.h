@@ -3,8 +3,8 @@
 
 # define FOV 66
 # define SPEED 5
-# define WIDTH 1000
-# define HEIGHT 500
+# define WIDTH 3000
+# define HEIGHT 1000
 
 
 # define UPR 1
@@ -73,8 +73,10 @@ typedef struct s_player{
 	int		y_idx;
 	double		x;
 	double		y;
-	int		height;
-	int		width;
+	int			height;
+	int			width;
+	int			map_height;
+	int			map_width;
 } t_player;
 
 
