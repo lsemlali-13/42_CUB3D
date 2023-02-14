@@ -2,10 +2,10 @@
 # define CUB3D_H
 
 # define FOV 66.66
-# define SPEED 10
+# define SPEED 5
 # define WIDTH 2000
 # define HEIGHT 1000
-# define TILE_SIZE 50
+# define TILE_SIZE 30
 
 # define UPR 1
 # define UPL -1
