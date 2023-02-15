@@ -69,6 +69,7 @@ typedef struct s_player{
 	double		turny;
 	double 		rotangle;
 	double		rayangle;
+	int			checkh;	
 	double		x;
 	double		y;
 	int			map_height;
@@ -79,5 +80,7 @@ typedef struct s_player{
 char	**ft_split(char const *s, char c);
 void	dda(t_player *p, int *color);
 double	degtorad(double ang);
+int		ft_strlen(char *s);
+int		is_wallh(t_player *p, int x, int y);
 
 #endif

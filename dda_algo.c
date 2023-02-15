@@ -1,5 +1,15 @@
 #include "cub3d.h"
 
+int	ft_strlen(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
 double	degtorad(double ang)
 {
 	while (ang < 0)
@@ -107,7 +117,7 @@ int	is_wallh(t_player *p, int x, int y)
 	inc = get_dirh(p->rayangle);
 	x += inc.x;
 	y += inc.y;
-	int check = x < p->map_width / TILE_SIZE && y < p->map_height / TILE_SIZE && x >= 0 && y >= 0;
+	int check = y < p->map_height / TILE_SIZE && y >= 0 && x < ft_strlen(p->map[y]) && x >= 0;
 	if (!check)
 		return (-1);
 	if (check && p->map[y][x] == '1')
@@ -122,7 +132,7 @@ int	is_wallv(t_player *p, int x, int y)
 	inc = get_dirv(p->rayangle);
 	x += inc.x;
 	y += inc.y;
-	int check = x < p->map_width / TILE_SIZE && y < p->map_height / TILE_SIZE && x >= 0 && y >= 0;
+	int check = y < p->map_height / TILE_SIZE && y >= 0 && x < ft_strlen(p->map[y]) && x >= 0;
 	if (!check)
 		return (-1);
 	if (check && p->map[y][x] == '1')
@@ -163,11 +173,8 @@ void	ddah(t_player *p)
 		p->turny = y;
 		// draw_line(tx, ty, x, y, clr[i], p);
 	}
-	if (is_wallv(p, x / TILE_SIZE, y / TILE_SIZE) == -1)
-	{
-		p->turnx = WIDTH;
-		p->turny = HEIGHT;
-	}
+	if (is_wallh(p, x / TILE_SIZE, y / TILE_SIZE) == -1)
+		p->checkh = -1;
 }
 void	ddav(t_player *p)
 {
@@ -202,11 +209,8 @@ void	ddav(t_player *p)
 		p->turny = y;
 		// draw_line(tx, ty, x, y, clr[i], p);
 	}
-	if (is_wallv(p, x / TILE_SIZE, y / TILE_SIZE) == -1)
-	{
-		p->turnx = WIDTH;
-		p->turny = HEIGHT;
-	}
+	// if (is_wallv(p, x / TILE_SIZE, y / TILE_SIZE) == -1)
+	// 	p->checkv = -1;
 }
 
 double	get_dis(double stx, double sty, double endx, double endy)
@@ -227,7 +231,7 @@ void	dda(t_player *p, int *color)
 	ver.y = p->turny;
 	dish = get_dis(p->x, p->y, hor.x, hor.y);
 	disv = get_dis(p->x, p->y, ver.x, ver.y);
-	if (dish > disv)
+	if (((dish > disv) && disv != 0) || dish == 0)
 	{
 		if (sin(degtorad(p->rayangle)) > 0)
 			*color = YELLOW;

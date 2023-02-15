@@ -73,6 +73,8 @@ typedef struct s_player{
 	int		y_idx;
 	double		x;
 	double		y;
+	int			checkh;	
+	int			checkv;	
 	int			height;
 	int			width;
 	int			map_height;
