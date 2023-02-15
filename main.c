@@ -1,15 +1,5 @@
 #include "cub3d.h"
 
-size_t	ft_strlen(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
 char	**read_map(int fd)
 {
 	char	s[1000];
@@ -53,7 +43,7 @@ void	ren3d(t_player *p)
 		p->turny = p->y;
 		dda(p, &color);
 		double dis = sqrt(pow(p->x - p->turnx, 2.0) + pow(p->y - p->turny, 2.0));
-		dis = (dis + 1) * cos(degtorad(p->rayangle - p->rotangle));
+		dis = dis * cos(degtorad(p->rayangle - p->rotangle));
 		double wallh = roundf((HEIGHT / dis) * 20);
 		if (wallh > HEIGHT / 2)
 			wallh = HEIGHT / 2;
@@ -115,9 +105,10 @@ void	create_wind(char **map, t_player *p)
 		{
 			if (map[i][j] == 'p')
 			{
-				p->x = x;
-				p->y = y;
-				p->rotangle = 0;
+				p->checkh = 0;
+				p->x = x + TILE_SIZE / 2;
+				p->y = y + TILE_SIZE / 2;
+				p->rotangle = 90;
 				p->turnx = x;
 				p->turny = y;
 			}
@@ -131,11 +122,36 @@ void	create_wind(char **map, t_player *p)
 	p->map_height = i * TILE_SIZE;
 }
 
+int	is_valid(t_player *p, double x, double y)
+{
+	// t_point inc;
+
+	// inc = get_dirh(p->rayangle);
+	// x += inc.x;
+	// y += inc.y;
+	int check = y < p->map_height && y >= 0 && x / TILE_SIZE < ft_strlen(p->map[(int)(y / TILE_SIZE)]) && x >= 0;
+	if (!check)
+		return (0);
+	if (check && p->map[(int)(y / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1')
+		return (0);
+	if (degtorad(p->rayangle) >= M_PI / 2 && degtorad(p->rayangle) < M_PI)
+	{
+		if (p->map[(int)((y - 10) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1' && p->map[(int)(y / TILE_SIZE)][(int)((x - 10) / TILE_SIZE)] == '1')
+			return (0);
+	}
+	if (degtorad(p->rayangle) >=3 * M_PI / 2 && degtorad(p->rayangle) < 2 * M_PI)
+	{
+		if (p->map[(int)((y - 10) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1' && p->map[(int)(y / TILE_SIZE)][(int)((x - 10) / TILE_SIZE)] == '1')
+			return (0);
+	}
+	return (1);
+}
+
 void	move_player(int key, t_player *p)
 {
 	double x = p->x + cos(degtorad(p->rotangle)) * SPEED;
 	double y = p->y - sin(degtorad(p->rotangle)) * SPEED;
-	if (key == UP && p->map[(int)y / TILE_SIZE][(int)x / TILE_SIZE] != '1')
+	if (key == UP && is_valid(p, x, y))
 	{
 		p->x += cos(degtorad(p->rotangle)) * SPEED;
 		p->y -= sin(degtorad(p->rotangle)) * SPEED;
@@ -143,7 +159,7 @@ void	move_player(int key, t_player *p)
 	}
 	x = p->x - cos(degtorad(p->rotangle)) * SPEED;
 	y = p->y + sin(degtorad(p->rotangle)) * SPEED;
-	if (key == DOWN && p->map[(int)y / TILE_SIZE][(int)x / TILE_SIZE] != '1')
+	if (key == DOWN && is_valid(p, x, y))
 	{
 		p->x -= cos(degtorad(p->rotangle)) * SPEED;
 		p->y += sin(degtorad(p->rotangle)) * SPEED;
@@ -151,7 +167,7 @@ void	move_player(int key, t_player *p)
 	}
 	x = p->x + cos(degtorad(90 + p->rotangle)) * SPEED;
 	y = p->y - sin(degtorad(90 + p->rotangle)) * SPEED;
-	if (key == RIGHT && p->map[(int)y / TILE_SIZE][(int)x / TILE_SIZE] != '1')
+	if (key == RIGHT && is_valid(p, x, y))
 	{
 		p->x += cos(degtorad(90 + p->rotangle)) * SPEED;
 		p->y -= sin(degtorad(90 + p->rotangle)) * SPEED;
@@ -159,7 +175,7 @@ void	move_player(int key, t_player *p)
 	}
 	x = p->x - cos(degtorad(90 + p->rotangle)) * SPEED;
 	y = p->y + sin(degtorad(90 + p->rotangle)) * SPEED;
-	if (key == LEFT && p->map[(int)y / TILE_SIZE][(int)x / TILE_SIZE] != '1')
+	if (key == LEFT && is_valid(p, x, y))
 	{
 		p->x -= cos(degtorad(90 + p->rotangle)) * SPEED;
 		p->y += sin(degtorad(90 + p->rotangle)) * SPEED;

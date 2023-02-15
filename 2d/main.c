@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-size_t	ft_strlen(char *s)
+int	ft_strlen(char *s)
 {
 	int	i;
 
@@ -164,7 +164,7 @@ int	is_wallh(t_player *p, int x, int y)
 	inc = get_dirh(p->rayangle);
 	x += inc.x;
 	y += inc.y;
-	int check = x < p->map_width / 50 && y < p->map_height / 50 && x >= 0 && y >= 0;
+	int check = y < p->map_height / 50 && y >= 0 && x < ft_strlen(p->map[y]) && x >= 0;
 	if (!check)
 		return (-1);
 	if (check && p->map[y][x] == '1')
@@ -179,7 +179,7 @@ int	is_wallv(t_player *p, int x, int y)
 	inc = get_dirv(p->rayangle);
 	x += inc.x;
 	y += inc.y;
-	int check = x < p->map_width / 50 && y < p->map_height / 50 && x >= 0 && y >= 0;
+	int check = y < p->map_height / 50 && y >= 0 && x < ft_strlen(p->map[y]) && x >= 0;
 	if (!check)
 		return (-1);
 	if (check && p->map[y][x] == '1')
@@ -291,7 +291,6 @@ void	ddah(t_player *p)
 	int k = 0;
 	while (!is_wallh(p, x / 50, y / 50))
 	{
-		printf("hello\n");
 		// draw_line(tx, ty, x, y, clr[i], p);
 		tx = x;
 		ty = y;
@@ -308,10 +307,11 @@ void	ddah(t_player *p)
 		p->turny = y;
 		// draw_line(tx, ty, x, y, clr[i], p);
 	}
-	if (is_wallv(p, x / 50, y / 50) == -1)
+	if (is_wallh(p, x / 50, y / 50) == -1)
 	{
-		p->turnx = WIDTH;
-		p->turny = HEIGHT;
+		p->checkh = -1;
+		p->turnx = p->x;
+		p->turny = p->y;
 	}
 }
 void	ddav(t_player *p)
@@ -349,8 +349,9 @@ void	ddav(t_player *p)
 	}
 	if (is_wallv(p, x / 50, y / 50) == -1)
 	{
-		p->turnx = WIDTH;
-		p->turny = HEIGHT;
+		p->turnx = p->x;
+		p->turny = p->y;
+		p->checkv = -1;
 	}
 }
 double	get_dis(double stx, double sty, double endx, double endy)
@@ -374,8 +375,8 @@ void	dda(t_player *p)
 	// 	dish = 10000;
 	// if (disv == 0)
 	// 	disv = 10000;
-	p->turnx = dish > disv ? ver.x : hor.x;
-	p->turny = dish > disv ? ver.y : hor.y;
+	p->turnx = ((dish > disv) && disv != 0) || dish == 0 ? ver.x : hor.x;
+	p->turny = ((dish > disv) && disv != 0) || dish == 0 ? ver.y : hor.y;
 	// draw_line(p->x, p->y, hor.x, hor.y, YELLOW, p);
 	// draw_line(p->x, p->y, ver.x, ver.y, RED, p);
 	// draw_line(p->x, p->y, p->turnx, p->turny, BLUE, p);
@@ -392,7 +393,7 @@ void	ren3d(t_player *p)
 
 	double rcos;
 	double rsin;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < WIDTH; i++)
 	{
 		p->turnx = p->x;
 		p->turny = p->y;
@@ -416,7 +417,7 @@ void	ren3d(t_player *p)
 		// draw_line(&tmp, i, 250 + wallh, YELLOW);
 		// tmp.y = 250 + wallh;
 		// draw_line(&tmp, i, 500, RED);
-		p->rayangle += FOV / WIDTH;
+		p->rayangle += FOV / (double)WIDTH;
 	}
 	// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p_img->img, 0, 0);
 }
@@ -504,11 +505,13 @@ void	create_wind(char **map, t_player *p)
 				mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_1, x, y);
 			else if (map[i][j] == 'p')
 			{
-				p->x = x;
-				p->y = y;
+				p->checkh = 0;
+				p->checkv = 0;
+				p->x = x + 25;
+				p->y = y + 25;
 				p->x_idx = j;
 				p->y_idx = i;
-				p->rotangle = 0;
+				p->rotangle = 90;
 				p->turnx = x;
 				p->turny = y;
 				// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, x, y);
@@ -526,12 +529,33 @@ void	create_wind(char **map, t_player *p)
 	p->map_height = i * 50;
 }
 
+// int	is_valid(t_player *p, double x, double y)
+// {
+// 	// t_point inc;
+
+// 	// inc = get_dirh(p->rayangle);
+// 	// x += inc.x;
+// 	// y += inc.y;
+// 	if (degtorad(p->rayangle) >= M_PI / 2 && degtorad(p->rayangle) < M_PI)
+// 	{
+// 		if (p->map[(int)((y - 10) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1' && p->map[(int)(y / TILE_SIZE)][(int)((x - 10) / TILE_SIZE)] == '1')
+// 			return (0);
+// 	}
+// 	if (degtorad(p->rayangle) >=3 * M_PI / 2 && degtorad(p->rayangle) < 2 * M_PI)
+// 	{
+// 		if (p->map[(int)((y - 10) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1' && p->map[(int)(y / TILE_SIZE)][(int)((x - 10) / TILE_SIZE)] == '1')
+// 			return (0);
+// 	}
+// 	return (1);
+// }
+
 void	move_player(int key, t_player *p)
 {
 	double x = p->x + cos(degtorad(p->rotangle)) * SPEED;
 	double y = p->y - sin(degtorad(p->rotangle)) * SPEED;
 	if (key == UP && p->map[(int)y / 50][(int)x / 50] != '1')
 	{
+		printf("%f, %f  %d -..-..- %d\n", x, y, (int)(x / 50), (int)(y / 50));
 		clear_wind(p);
 		p->x += cos(degtorad(p->rotangle)) * SPEED;
 		p->y -= sin(degtorad(p->rotangle)) * SPEED;
@@ -556,7 +580,6 @@ void	move_player(int key, t_player *p)
 	y = p->y + sin(degtorad(90 + p->rotangle)) * SPEED;
 	if (key == RIGHT && p->map[(int)y / 50][(int)x / 50] != '1')
 	{
-		printf("%f, %f --- %f, %f\n", p->x, p->y, x, y);
 		clear_wind(p);
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
 		// p->rotangle += 90;
