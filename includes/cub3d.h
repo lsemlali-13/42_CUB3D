@@ -6,7 +6,7 @@
 /*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:20:11 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/14 14:36:02 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:29:23 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,18 @@
 # define KEY_A      97
 # define KEY_S      115
 # define KEY_D      100
+
+// typedef struct s_image
+// {
+// 	void	*img;
+// 	char	*adr;
+// 	int		bits_per_pixel;
+// 	int		size_line;
+// 	int		endian;
+// 	int		img_h;
+// 	int		img_w;
+// }	t_image;
+
 
 typedef struct s_textur
 {
@@ -80,6 +92,7 @@ void	ft_putnbr(int n);
 char	**ft_split(char const *s, char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_atoi(const char *str);
+
 
 // parser Function
 void	ft_check_file(t_game *game);
