@@ -6,7 +6,7 @@
 /*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:20:11 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/15 21:29:23 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/16 13:36:09 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,16 @@
 # define KEY_S      115
 # define KEY_D      100
 
-// typedef struct s_image
-// {
-// 	void	*img;
-// 	char	*adr;
-// 	int		bits_per_pixel;
-// 	int		size_line;
-// 	int		endian;
-// 	int		img_h;
-// 	int		img_w;
-// }	t_image;
+typedef struct s_image
+{
+	void	*img;
+	char	*adr;
+	int		bits_per_pixel;
+	int		size_line;
+	int		endian;
+	int		img_h;
+	int		img_w;
+}	t_image;
 
 
 typedef struct s_textur
@@ -72,10 +72,16 @@ typedef struct s_map
 
 }	t_map;
 
+typedef struct s_windo
+{
+	void	*win;
+	void	*mlx;
+	t_image	*image;
+}	t_windo;
+
+
 typedef struct s_game
 {
-	void	*mlx;
-	void	*win;
 	char	**map_contant;
 	int		size;
 	char	*file_name;
