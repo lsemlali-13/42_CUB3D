@@ -44,13 +44,9 @@ void	ren3d(t_player *p)
 		dda(p, &color);
 		double dis = sqrt(pow(p->x - p->turnx, 2.0) + pow(p->y - p->turny, 2.0));
 		dis = dis * cos(degtorad(p->rayangle - p->rotangle));
-		double wallh = roundf((HEIGHT / dis) * 20);
+		double wallh = roundf((HEIGHT / dis) * 15);
 		if (wallh > HEIGHT / 2)
 			wallh = HEIGHT / 2;
-		// if ((int)p->turnx % TILE_SIZE == 0)
-		// 	color = GREEN;
-		// else
-		// 	color = YELLOW;
 		draw_line(i, 0, i, (HEIGHT / 2) - wallh, BLUE, p_img);
 		draw_line(i, (HEIGHT / 2) - wallh, i, (HEIGHT / 2) + wallh, color, p_img);
 		draw_line(i, (HEIGHT / 2) + wallh, i, HEIGHT - 1, BLACK, p_img);
@@ -124,7 +120,6 @@ void	create_wind(char **map, t_player *p)
 
 int	is_valid(t_player *p, double x, double y)
 {
-	printf("%f --- %f\n", x, y);
 	if (p->map[(int)(y / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1')
 		return (0);
 	if (p->map[(int)((y - 3) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1')
@@ -205,7 +200,6 @@ int main()
 	win->width = TILE_SIZE;
 	win->mlx_p = mlx_init();
 	win->mlx_w = mlx_new_window(win->mlx_p, WIDTH, HEIGHT, "CUB3D");
-	
 	p->win = win;
 	fd = open("maps/map.cub", O_RDWR);
 	map = read_map(fd);

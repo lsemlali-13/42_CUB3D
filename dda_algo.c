@@ -174,7 +174,10 @@ void	ddah(t_player *p)
 		// draw_line(tx, ty, x, y, clr[i], p);
 	}
 	if (is_wallh(p, x / TILE_SIZE, y / TILE_SIZE) == -1)
-		p->checkh = -1;
+	{
+		p->turnx = p->x;
+		p->turny = p->y;
+	}
 }
 void	ddav(t_player *p)
 {
@@ -186,14 +189,12 @@ void	ddav(t_player *p)
 	x = p->x + (hx * inc.signx);
 	hx = fabs(TILE_SIZE / tan(degtorad(p->rayangle)));
 	double tx, ty;
-	// int clr[2] =  {YELLOW, RED};
 	int i = 0;
 	tx = p->x;
 	ty = p->y;
 	int k = 0;
 	while (!is_wallv(p, x / TILE_SIZE, y / TILE_SIZE))
 	{
-		// draw_line(tx, ty, x, y, clr[i], p);
 		tx = x;
 		ty = y;
 		x += hx * inc.signx;
@@ -207,10 +208,12 @@ void	ddav(t_player *p)
 	{
 		p->turnx = x;
 		p->turny = y;
-		// draw_line(tx, ty, x, y, clr[i], p);
 	}
-	// if (is_wallv(p, x / TILE_SIZE, y / TILE_SIZE) == -1)
-	// 	p->checkv = -1;
+	if (is_wallv(p, x / TILE_SIZE, y / TILE_SIZE) == -1)
+	{
+		p->turnx = p->x;
+		p->turny = p->y;
+	}
 }
 
 double	get_dis(double stx, double sty, double endx, double endy)
