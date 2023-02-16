@@ -538,22 +538,38 @@ void	create_wind(char **map, t_player *p)
 // 	// y += inc.y;
 // 	if (degtorad(p->rayangle) >= M_PI / 2 && degtorad(p->rayangle) < M_PI)
 // 	{
-// 		if (p->map[(int)((y - 10) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1' && p->map[(int)(y / TILE_SIZE)][(int)((x - 10) / TILE_SIZE)] == '1')
+// 		if (p->map[(int)((y - 10) / 50)][(int)(x / 50)] == '1' && p->map[(int)(y / 50)][(int)((x - 10) / 50)] == '1')
 // 			return (0);
 // 	}
 // 	if (degtorad(p->rayangle) >=3 * M_PI / 2 && degtorad(p->rayangle) < 2 * M_PI)
 // 	{
-// 		if (p->map[(int)((y - 10) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1' && p->map[(int)(y / TILE_SIZE)][(int)((x - 10) / TILE_SIZE)] == '1')
+// 		if (p->map[(int)((y - 10) / 50)][(int)(x / 50)] == '1' && p->map[(int)(y / 50)][(int)((x - 10) / 50)] == '1')
 // 			return (0);
 // 	}
 // 	return (1);
 // }
 
+int	is_valid(t_player *p, double x, double y)
+{
+	printf("%f --- %f\n", x, y);
+	if (p->map[(int)(y / 50)][(int)(x / 50)] == '1')
+		return (0);
+	if (p->map[(int)((y - 3) / 50)][(int)(x / 50)] == '1')
+		return (0);
+	if (p->map[(int)((y + 3) / 50)][(int)(x / 50)] == '1')
+		return (0);
+	if (p->map[(int)(y / 50)][(int)((x - 3) / 50)] == '1')
+		return (0);
+	if (p->map[(int)(y / 50)][(int)((x + 3) / 50)] == '1')
+		return (0);
+	return (1);
+}
+
 void	move_player(int key, t_player *p)
 {
 	double x = p->x + cos(degtorad(p->rotangle)) * SPEED;
 	double y = p->y - sin(degtorad(p->rotangle)) * SPEED;
-	if (key == UP && p->map[(int)y / 50][(int)x / 50] != '1')
+	if (key == UP && is_valid(p, x, y))
 	{
 		printf("%f, %f  %d -..-..- %d\n", x, y, (int)(x / 50), (int)(y / 50));
 		clear_wind(p);
@@ -565,7 +581,7 @@ void	move_player(int key, t_player *p)
 	}
 	x = p->x - cos(degtorad(p->rotangle)) * SPEED;
 	y = p->y + sin(degtorad(p->rotangle)) * SPEED;
-	if (key == DOWN && p->map[(int)y / 50][(int)x / 50] != '1')
+	if (key == DOWN && is_valid(p, x, y))
 	{
 		clear_wind(p);
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
@@ -578,7 +594,7 @@ void	move_player(int key, t_player *p)
 	}
 	x = p->x - cos(degtorad(90 + p->rotangle)) * SPEED;
 	y = p->y + sin(degtorad(90 + p->rotangle)) * SPEED;
-	if (key == RIGHT && p->map[(int)y / 50][(int)x / 50] != '1')
+	if (key == RIGHT && is_valid(p, x, y))
 	{
 		clear_wind(p);
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
@@ -592,7 +608,7 @@ void	move_player(int key, t_player *p)
 	}
 	x = p->x + cos(degtorad(90 + p->rotangle)) * SPEED;
 	y = p->y - sin(degtorad(90 + p->rotangle)) * SPEED;
-	if (key == LEFT && p->map[(int)y / 50][(int)x / 50] != '1')
+	if (key == LEFT && is_valid(p, x, y))
 	{
 		clear_wind(p);
 		// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, (p->x / 50) * 50, p->y - (p->y % 50));
