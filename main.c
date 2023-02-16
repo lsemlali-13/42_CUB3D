@@ -109,8 +109,8 @@ void	create_wind(char **map, t_player *p)
 				p->x = x + TILE_SIZE / 2;
 				p->y = y + TILE_SIZE / 2;
 				p->rotangle = 90;
-				p->turnx = x;
-				p->turny = y;
+				p->turnx = p->x;
+				p->turny = p->y;
 			}
 			j++;
 			x += TILE_SIZE;
@@ -124,26 +124,17 @@ void	create_wind(char **map, t_player *p)
 
 int	is_valid(t_player *p, double x, double y)
 {
-	// t_point inc;
-
-	// inc = get_dirh(p->rayangle);
-	// x += inc.x;
-	// y += inc.y;
-	int check = y < p->map_height && y >= 0 && x / TILE_SIZE < ft_strlen(p->map[(int)(y / TILE_SIZE)]) && x >= 0;
-	if (!check)
+	printf("%f --- %f\n", x, y);
+	if (p->map[(int)(y / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1')
 		return (0);
-	if (check && p->map[(int)(y / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1')
+	if (p->map[(int)((y - 3) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1')
 		return (0);
-	if (degtorad(p->rayangle) >= M_PI / 2 && degtorad(p->rayangle) < M_PI)
-	{
-		if (p->map[(int)((y - 10) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1' && p->map[(int)(y / TILE_SIZE)][(int)((x - 10) / TILE_SIZE)] == '1')
-			return (0);
-	}
-	if (degtorad(p->rayangle) >=3 * M_PI / 2 && degtorad(p->rayangle) < 2 * M_PI)
-	{
-		if (p->map[(int)((y - 10) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1' && p->map[(int)(y / TILE_SIZE)][(int)((x - 10) / TILE_SIZE)] == '1')
-			return (0);
-	}
+	if (p->map[(int)((y + 3) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1')
+		return (0);
+	if (p->map[(int)(y / TILE_SIZE)][(int)((x - 3) / TILE_SIZE)] == '1')
+		return (0);
+	if (p->map[(int)(y / TILE_SIZE)][(int)((x + 3) / TILE_SIZE)] == '1')
+		return (0);
 	return (1);
 }
 
@@ -193,10 +184,11 @@ void	move_player(int key, t_player *p)
 	}
 }
 
+
 int	key_hook(int keycode, void *p)
 {
-	p = (t_player *)p;
-	move_player(keycode, p);
+	t_player *pl = (t_player *)p;
+	move_player(keycode, pl);
 	return (0);
 }
 
