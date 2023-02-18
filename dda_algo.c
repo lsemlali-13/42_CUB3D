@@ -5,7 +5,7 @@ int	ft_strlen(char *s)
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 		i++;
 	return (i);
 }
@@ -145,9 +145,9 @@ void	ddah(t_player *p)
 	// double dx = TILE_SIZE / cos(degtorad(p->rayangle));
 	double hx = TILE_SIZE, hy;
 	t_point inc = get_hsign(p->rayangle);
-	double x = floor(p->turnx / TILE_SIZE) * TILE_SIZE + inc.x, y;
+	double x = floor(p->tox / TILE_SIZE) * TILE_SIZE + inc.x, y;
 	hy = fabs(fabs(x - p->x) * tan(degtorad(p->rayangle)));
-	y = p->turny + (hy * inc.signy);
+	y = p->toy + (hy * inc.signy);
 	hy = fabs(TILE_SIZE * tan(degtorad(p->rayangle)));
 	double tx, ty;
 	// int clr[2] =  {ORANGE, GREEN};
@@ -162,21 +162,21 @@ void	ddah(t_player *p)
 		ty = y;
 		x += hx * inc.signx;
 		y += hy * inc.signy;
-		p->turnx = x;
-		p->turny = y;
+		p->tox = x;
+		p->toy = y;
 		i = (i == 0 ? 1 : 0);
 		k = -1;
 	}
 	if (is_wallh(p, x / TILE_SIZE, y / TILE_SIZE) == 1)
 	{
-		p->turnx = x;
-		p->turny = y;
+		p->tox = x;
+		p->toy = y;
 		// draw_line(tx, ty, x, y, clr[i], p);
 	}
 	if (is_wallh(p, x / TILE_SIZE, y / TILE_SIZE) == -1)
 	{
-		p->turnx = p->x;
-		p->turny = p->y;
+		p->tox = p->x;
+		p->toy = p->y;
 	}
 }
 void	ddav(t_player *p)
@@ -199,20 +199,20 @@ void	ddav(t_player *p)
 		ty = y;
 		x += hx * inc.signx;
 		y += hy * inc.signy;
-		p->turnx = x;
-		p->turny = y;
+		p->tox = x;
+		p->toy = y;
 		i = (i == 0 ? 1 : 0);
 		k = -1;
 	}
 	if (is_wallv(p, x / TILE_SIZE, y / TILE_SIZE) == 1)
 	{
-		p->turnx = x;
-		p->turny = y;
+		p->tox = x;
+		p->toy = y;
 	}
 	if (is_wallv(p, x / TILE_SIZE, y / TILE_SIZE) == -1)
 	{
-		p->turnx = p->x;
-		p->turny = p->y;
+		p->tox = p->x;
+		p->toy = p->y;
 	}
 }
 
@@ -221,27 +221,32 @@ double	get_dis(double stx, double sty, double endx, double endy)
 	return (sqrt(pow(endx - stx, 2) + pow(endy - sty, 2)));
 }
 
-void	dda(t_player *p, int *color)
+
+
+void	dda(t_player *p, unsigned int *color)
 {
 	t_point hor;
 	t_point ver;
 	double dish, disv;
 	ddah(p);
-	hor.x = p->turnx;
-	hor.y = p->turny;
+	hor.x = p->tox;
+	hor.y = p->toy;
 	ddav(p);
-	ver.x = p->turnx;
-	ver.y = p->turny;
+	ver.x = p->tox;
+	ver.y = p->toy;
 	dish = get_dis(p->x, p->y, hor.x, hor.y);
 	disv = get_dis(p->x, p->y, ver.x, ver.y);
+	p->check = 0;
 	if (((dish > disv) && disv != 0) || dish == 0)
 	{
 		if (sin(degtorad(p->rayangle)) > 0)
-			*color = YELLOW;
+		{
+			p->check = -1;
+		}
 		else
 			*color = WHITE;
-		p->turnx = ver.x;
-		p->turny = ver.y;
+		p->tox = ver.x;
+		p->toy = ver.y;
 	}
 	else
 	{
@@ -249,7 +254,7 @@ void	dda(t_player *p, int *color)
 			*color = GREEN;
 		else
 			*color = PURPLE;
-		p->turnx = hor.x;
-		p->turny = hor.y;
+		p->tox = hor.x;
+		p->toy = hor.y;
 	}
 }
