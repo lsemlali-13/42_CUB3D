@@ -8,7 +8,19 @@ char	**read_map(int fd)
 	return (ft_split(s, '\n'));
 }
 
-void	my_pixel_put(t_img *data, int x, int y, int color)
+unsigned int	get_color(t_img *data, int x, int y, t_player *p, double wallh)
+{
+	char *dst;
+
+	// printf("%d --- %d\n", x,y);
+	(void)p;
+	(void)wallh;
+	//x = (int)wallh % p->h;
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	return (*(unsigned int*)dst);
+}
+
+void	my_pixel_put(t_img *data, int x, int y, unsigned int color)
 {
 	char *dst;
 
@@ -16,41 +28,66 @@ void	my_pixel_put(t_img *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-int draw_line(double x, double y, double tox, double toy, int color, t_img *p_img)
+int draw_line(double x, double y, double toy, unsigned int color, t_img *p_img, t_player *p, double wallh, int k)
 {
+	(void)p;
 	double py = y;
-	(void)tox;
+	int newy;
+	// int newx;
+
+	//newy = py - (floor(py / TILE_SIZE) * TILE_SIZE);
+	//newx = x - (floor(x / TILE_SIZE) * TILE_SIZE);
+	newy = 0;
+	//int k = p->h / wallh;
 	while (py < toy)
 	{
-		my_pixel_put(p_img, x, py, color);
-		py += 1;
+		if (p->check == -1)
+			color = get_color(&p->img, k, newy, p, wallh);
+		my_pixel_put(p_img, x, py, (unsigned int )color);
+		py++;
+		newy += p->h / (2 * wallh);
+		newy %= p->h;
+		//if (newy > 2400)
+		//{
+		//	newx++;
+		//	newy = 0;
+		//}
 	}
 	return (0);
 }
 
 void	ren3d(t_player *p)
 {
-	p->rayangle = p->rotangle - (FOV / 2);
+	p->rayangle = p->rotangle + (FOV / 2);
 
 	t_img *p_img;
 	p_img = malloc(sizeof(t_img));
-	p_img->img = mlx_new_image(p->win->mlx_p, WIDTH, HEIGHT);
+	p_img->img = mlx_new_image(p->win->mlx_p, p->map_width, p->map_height);
 	p_img->addr = mlx_get_data_addr(p_img->img, &(p_img->bits_per_pixel), &(p_img->line_length), &(p_img->endian));
-	int color;
-	for (int i = 0; i < WIDTH; i++)
+	unsigned int color;
+	int k = 0;
+	for (int i = 0; i < p->map_width; i++)
 	{
-		p->turnx = p->x;
-		p->turny = p->y;
+		p->tox = p->x;
+		p->toy = p->y;
 		dda(p, &color);
-		double dis = sqrt(pow(p->x - p->turnx, 2.0) + pow(p->y - p->turny, 2.0));
+		if (i == 0)
+			k = p->tox - floor(p->tox / TILE_SIZE) * TILE_SIZE;
+		double dis = sqrt(pow(p->x - p->tox, 2.0) + pow(p->y - p->toy, 2.0));
 		dis = dis * cos(degtorad(p->rayangle - p->rotangle));
-		double wallh = roundf((HEIGHT / dis) * 15);
-		if (wallh > HEIGHT / 2)
-			wallh = HEIGHT / 2;
-		draw_line(i, 0, i, (HEIGHT / 2) - wallh, BLUE, p_img);
-		draw_line(i, (HEIGHT / 2) - wallh, i, (HEIGHT / 2) + wallh, color, p_img);
-		draw_line(i, (HEIGHT / 2) + wallh, i, HEIGHT - 1, BLACK, p_img);
-		p->rayangle += FOV / WIDTH;
+		double wallh = roundf((p->map_height / dis) * TILE_SIZE);
+		if (wallh > p->map_height / 2)
+			wallh = p->map_height / 2;
+		// draw_line(i, 0, (p->map_height / 2) - wallh, BLUE, p_img, p);
+		if ((int)p->tox % TILE_SIZE == 0 && (int)(p->tox * 10) % 10  == 0)
+			k = 0;
+		
+		printf("%d --- %f\n", k, wallh);
+		draw_line(i, (p->map_height / 2) - wallh, (p->map_height / 2) + wallh, color, p_img, p, wallh, k);
+		k += p->w / wallh;
+		k %= p->w;
+		// draw_line(i, (p->map_height / 2) + wallh,  p->map_height - 1, BLACK, p_img, p);
+		p->rayangle -= FOV / p->map_width;
 	}
 	mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p_img->img, 0, 0);
 }
@@ -86,35 +123,43 @@ void	clear_wind(t_player *p)
 	}
 }
 
-void	create_wind(char **map, t_player *p)
+void	get_player_pos(t_player *p, int c)
+{
+	if (c == 'E')
+		p->rotangle = 0;
+	if (c == 'N')
+		p->rotangle = 90;
+	if (c == 'W')
+		p->rotangle = 180;
+	if (c == 'S')
+		p->rotangle = 270;
+}
+
+void	get_player_info(char **map, t_player *p)
 {
 	int i = 0;
 	int j;
-	int x = 0;
-	int y = 0;
 
+	p->map_width = 0;
 	while (map[i])
 	{
 		j = 0;
-		x = 0;
+		if (ft_strlen(map[i]) * TILE_SIZE > p->map_width)
+			p->map_width = ft_strlen(map[i]) * TILE_SIZE;
 		while (map[i][j])
 		{
-			if (map[i][j] == 'p')
+			if (map[i][j] == 'N' || map[i][j] == 'W' || map[i][j] == 'E' || map[i][j] == 'S')
 			{
-				p->checkh = 0;
-				p->x = x + TILE_SIZE / 2;
-				p->y = y + TILE_SIZE / 2;
-				p->rotangle = 90;
-				p->turnx = p->x;
-				p->turny = p->y;
+				get_player_pos(p, map[i][j]);
+				p->x = (j * TILE_SIZE) + TILE_SIZE / 2;
+				p->y = (i * TILE_SIZE) + TILE_SIZE / 2;
+				p->tox = p->x;
+				p->toy = p->y;
 			}
 			j++;
-			x += TILE_SIZE;
 		}
 		i++;
-		y += TILE_SIZE;
 	}
-	p->map_width = ft_strlen(map[0]) * TILE_SIZE;
 	p->map_height = i * TILE_SIZE;
 }
 
@@ -151,30 +196,30 @@ void	move_player(int key, t_player *p)
 		p->y += sin(degtorad(p->rotangle)) * SPEED;
 		ren3d(p);
 	}
-	x = p->x + cos(degtorad(90 + p->rotangle)) * SPEED;
-	y = p->y - sin(degtorad(90 + p->rotangle)) * SPEED;
-	if (key == RIGHT && is_valid(p, x, y))
-	{
-		p->x += cos(degtorad(90 + p->rotangle)) * SPEED;
-		p->y -= sin(degtorad(90 + p->rotangle)) * SPEED;
-		ren3d(p);
-	}
 	x = p->x - cos(degtorad(90 + p->rotangle)) * SPEED;
 	y = p->y + sin(degtorad(90 + p->rotangle)) * SPEED;
-	if (key == LEFT && is_valid(p, x, y))
+	if (key == RIGHT && is_valid(p, x, y))
 	{
 		p->x -= cos(degtorad(90 + p->rotangle)) * SPEED;
 		p->y += sin(degtorad(90 + p->rotangle)) * SPEED;
 		ren3d(p);
 	}
+	x = p->x + cos(degtorad(90 + p->rotangle)) * SPEED;
+	y = p->y - sin(degtorad(90 + p->rotangle)) * SPEED;
+	if (key == LEFT && is_valid(p, x, y))
+	{
+		p->x += cos(degtorad(90 + p->rotangle)) * SPEED;
+		p->y -= sin(degtorad(90 + p->rotangle)) * SPEED;
+		ren3d(p);
+	}
 	if (key == ROTR)
 	{
-		p->rotangle += 10;
+		p->rotangle -= 10;
 		ren3d(p);
 	}
 	if (key == ROTL)
 	{
-		p->rotangle -= 10;
+		p->rotangle += 10;
 		ren3d(p);
 	}
 }
@@ -199,12 +244,17 @@ int main()
 	win->height = TILE_SIZE;
 	win->width = TILE_SIZE;
 	win->mlx_p = mlx_init();
-	win->mlx_w = mlx_new_window(win->mlx_p, WIDTH, HEIGHT, "CUB3D");
 	p->win = win;
 	fd = open("maps/map.cub", O_RDWR);
 	map = read_map(fd);
 	p->map = map;
-	create_wind(map, p);
+	// int w = 100, h = 100;
+	p->img.img = mlx_xpm_file_to_image(p->win->mlx_p, "img.xpm", &p->w, &p->h);
+	p->img.addr = mlx_get_data_addr(p->img.img, &(p->img.bits_per_pixel), &(p->img.line_length), &(p->img.endian));
+
+	get_player_info(map, p);
+	printf("%d --- \n", p->map_width);
+	win->mlx_w = mlx_new_window(win->mlx_p, p->map_width, p->map_height, "CUB3D");
 	ren3d(p);
 	mlx_hook(win->mlx_w, 2, 0, key_hook, p);
 	mlx_loop(win->mlx_p);

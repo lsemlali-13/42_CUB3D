@@ -2,9 +2,9 @@
 # define CUB3D_H
 
 # define FOV 66.66
-# define SPEED 5
-# define WIDTH 2000
-# define HEIGHT 1000
+# define SPEED 7
+# define WIDTH 1500
+# define HEIGHT 1200
 # define TILE_SIZE 30
 
 # define UPR 1
@@ -33,7 +33,7 @@
 # include <unistd.h>
 # include <math.h>
 # include <stdlib.h>
-# include "mlx/mlx.h"
+# include <mlx.h>
 
 typedef struct s_point
 {
@@ -65,20 +65,24 @@ typedef struct s_win{
 typedef struct s_player{
 	t_win		*win;
 	char		**map;
-	double		turnx;
-	double		turny;
+	int check;
+	double		tox;
+	double		toy;
 	double 		rotangle;
 	double		rayangle;
-	int			checkh;	
+	int			imgx;
 	double		x;
 	double		y;
+	int			h;
+	int			w;
 	int			map_height;
 	int			map_width;
+	t_img		img;
 } t_player;
 
 
 char	**ft_split(char const *s, char c);
-void	dda(t_player *p, int *color);
+void	dda(t_player *p, unsigned int *color);
 double	degtorad(double ang);
 int		ft_strlen(char *s);
 int		is_wallh(t_player *p, int x, int y);
