@@ -57,7 +57,7 @@ int	key_hook(int keycode, void *p)
 
 void	load_textures(t_player *p)
 {
-	p->img_e.img = mlx_xpm_file_to_image(p->win->mlx_p, "textures/img.xpm", &p->img_e.w, &p->img_e.h);
+	p->img_e.img = mlx_xpm_file_to_image(p->win->mlx_p, "immg.xpm", &p->img_e.w, &p->img_e.h);
 	p->img_n.img = mlx_xpm_file_to_image(p->win->mlx_p, "textures/img1.xpm", &p->img_n.w, &p->img_n.h);
 	p->img_w.img = mlx_xpm_file_to_image(p->win->mlx_p, "textures/img2.xpm", &p->img_w.w, &p->img_w.h);
 	p->img_s.img = mlx_xpm_file_to_image(p->win->mlx_p, "textures/img3.xpm", &p->img_s.w, &p->img_s.h);
@@ -87,6 +87,9 @@ int main()
 	load_textures(p);
 	get_player_info(map, p);
 	win->mlx_w = mlx_new_window(win->mlx_p, p->map_width, p->map_height, "CUB3D");
+	
+	p->wind.img = mlx_new_image(p->win->mlx_p, p->map_width, p->map_height);
+	p->wind.addr = mlx_get_data_addr(p->wind.img, &(p->wind.bits_per_pixel), &(p->wind.line_length), &(p->wind.endian));
 	ren3d(p);
 	mlx_hook(win->mlx_w, 2, 0, key_hook, p);
 	mlx_loop(win->mlx_p);

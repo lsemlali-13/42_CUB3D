@@ -5,7 +5,7 @@
 # define SPEED 7
 # define WIDTH 1500
 # define HEIGHT 1200
-# define TILE_SIZE 30
+# define TILE_SIZE 40
 
 # define UPR 1
 # define UPL -1
@@ -78,6 +78,7 @@ typedef struct s_player{
 	int			w;
 	int			map_height;
 	int			map_width;
+	t_img		wind;
 	t_img		img_e;
 	t_img		img_n;
 	t_img		img_w;
@@ -92,8 +93,8 @@ int		ft_strlen(char *s);
 int		is_wallh(t_player *p, int x, int y);
 void	ren3d(t_player *p);
 t_img	get_wich(t_player *p);
-int		get_color(t_img *data, int x, int y);
-void	my_pixel_put(t_img *data, int x, int y, int color);
+int		get_color(t_img data, int x, int y);
+void	my_pixel_put(t_img data, int x, int y, int color);
 void	move_player(int key, t_player *p);
 
 
