@@ -90,5 +90,11 @@ void	dda(t_player *p);
 double	degtorad(double ang);
 int		ft_strlen(char *s);
 int		is_wallh(t_player *p, int x, int y);
+void	ren3d(t_player *p);
+t_img	get_wich(t_player *p);
+int		get_color(t_img *data, int x, int y);
+void	my_pixel_put(t_img *data, int x, int y, int color);
+void	move_player(int key, t_player *p);
+
 
 #endif
