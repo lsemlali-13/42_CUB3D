@@ -3,87 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 12:51:30 by lsemlali          #+#    #+#             */
-/*   Updated: 2022/06/04 10:21:49 by lsemlali         ###   ########.fr       */
+/*   Created: 2022/06/15 13:46:37 by rarahhal          #+#    #+#             */
+/*   Updated: 2022/06/18 14:04:15 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "../includes/cub3d.h"
 
-static int	hmch_c(long int n)
+long	ft_nb_len(long nb)
 {
-	long int	p;
+	long	len;
 
-	p = 1;
-	if (n < 0)
-		n = -n;
-	while ((n / 10) > 0)
+	len = 0;
+	if (nb <= 0)
+		len++;
+	while (nb)
 	{
-		n = n / 10;
-		p += 1;
+		len++;
+		nb /= 10;
 	}
-	return (p);
+	return (len);
 }
 
-static char	*ft_posfill(char *str, int n, long int r, long int i)
+char	*ft_write(char *str, long nb, long len)
 {
-	str[r] = '\0';
-	if (!str)
-		return (0);
-	if (n == 0)
+	if (nb < 0)
+	{
+		str[0] = '-';
+		nb = -nb;
+	}
+	if (nb == 0)
 		str[0] = '0';
-	r = r - 1;
-	while (n > 0 && r >= i)
+	str[len--] = '\0';
+	while (nb)
 	{
-		str[r] = (n % 10) + 48;
-		n = n / 10;
-		r--;
-	}
-	return (str);
-}
-
-static char	*ft_negfill(char *str, int n, long int r, long int i)
-{
-	n = -n;
-	if (!str)
-		return (0);
-	str[0] = '-';
-	i = 1;
-	str[r + 1] = '\0';
-	if (n == -2147483648)
-	{
-		n = 214748364;
-		str[r] = '8';
-		r = r - 1;
-	}
-	while (n > 0 && r >= i)
-	{
-		str[r] = (n % 10) + 48;
-		n = n / 10;
-		r--;
+		str[len] = nb % 10 + '0';
+		nb = nb / 10;
+		len--;
 	}
 	return (str);
 }
 
 char	*ft_itoa(int n)
 {
-	char		*str;
-	long int	i;
-	long int	r;
+	long	nb;
+	long	len;
+	char	*str;
 
-	i = 0;
-	r = hmch_c((long int)n);
-	if (n < 0)
-	{
-		str = malloc(r + 2);
-		str = ft_negfill(str, n, r, i);
-	}
-	else
-	{
-		str = malloc(r + 1);
-		str = ft_posfill(str, n, r, i);
-	}
-	return (str);
+	nb = n;
+	len = ft_nb_len(nb);
+	str = malloc(sizeof(char) * len + 1);
+	if (!str)
+		return (NULL);
+	return (ft_write(str, nb, len));
 }
