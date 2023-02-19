@@ -3,95 +3,96 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 08:03:28 by lsemlali          #+#    #+#             */
-/*   Updated: 2023/01/26 13:40:58 by lsemlali         ###   ########.fr       */
+/*   Created: 2021/11/20 12:04:58 by rarahhal          #+#    #+#             */
+/*   Updated: 2023/02/14 14:09:14 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../includes/cub3d.h"
 
-static int	hmuch_calc(char *str, char c)
+char	**ft_malloc_error(char **tab)
 {
-	int	hmuch;
 	int	i;
 
+	i = -1;
+	while (tab[++i])
+		free(tab[i]);
+	free(tab);
+	return (NULL);
+}
+
+size_t	ft_strlcpy(char *dist, const char *src, size_t dstsize)
+{
+	size_t	i;
+
 	i = 0;
-	hmuch = 0;
+	if (dstsize > 0)
+	{
+		while (src[i] && i < (dstsize - 1))
+		{
+			dist[i] = src[i];
+			i++;
+		}
+		dist[i] = '\0';
+	}
+	return (ft_strlen(src));
+}
+
+int	num_of_words(const char *str, char c)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
 	while (str[i])
 	{
-		if (str[i] == c)
-		{
-			i++;
-			continue ;
-		}
-		hmuch++;
-		while (str[i] && str[i] != c)
-		{
-			i++;
-		}
+		if (str[i] != c && (str[i + 1] == c || str[i + 1] == '\0'))
+			j++;
+		i++;
 	}
-	return (hmuch);
+	return (j);
 }
 
-static int	ft_fill(char **arr, char *s, int i, char c)
+char	*next_str(char const *s, char c)
 {
-	int	n;
-	int	p;
+	int		i;
+	char	*tab;
 
-	p = 0;
-	while (s[i] == c)
-		i++;
-	p = i;
+	i = 0;
 	while (s[i] && s[i] != c)
 		i++;
-	arr[0] = malloc(i - p + 1);
-	n = 0;
-	while (p < i)
-	{
-		arr[0][n] = s[p];
-		p++;
-		n++;
-	}
-	arr[0][n] = '\0';
-	return (i);
-}
-
-void	ft_free(char **arr, int m)
-{
-	if (arr[m] == NULL)
-	{
-		while (m >= 0)
-		{
-			free(&arr[m]);
-			m--;
-		}
-		free(arr);
-	}
+	tab = (char *)malloc(sizeof(char) * (i + 1));
+	if (!tab)
+		return (NULL);
+	ft_strlcpy(tab, s, i + 1);
+	return (tab);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**arr;
-	int		m;
-	int		p;
 	int		i;
+	int		strs_len;
+	char	**tab;
 
-	m = 0;
-	p = 0;
-	i = 0;
 	if (!s)
-		return (0);
-	arr = (char **)malloc(sizeof(char *) * (hmuch_calc((char *)s, c) + 1));
-	if (arr == NULL)
-		return (0);
-	while (s[i] && m < hmuch_calc((char *)s, c))
+		return (NULL);
+	strs_len = num_of_words(s, c);
+	tab = (char **)malloc(sizeof(char *) * (strs_len + 1));
+	if (!tab)
+		return (NULL);
+	i = -1;
+	while (++i < strs_len)
 	{
-		i = ft_fill(&arr[m], (char *)s, i, c);
-		ft_free(arr, m);
-		m++;
+		while (s[0] == c)
+			s++;
+		tab[i] = next_str(s, c);
+		if (!tab[i])
+			return (ft_malloc_error(tab));
+		s = s + ft_strlen(tab[i]);
 	}
-	arr[hmuch_calc((char *)s, c)] = 0;
-	return (arr);
+	tab[i] = 0;
+	return (tab);
 }
