@@ -6,7 +6,7 @@
 /*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:31:14 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/16 17:14:34 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/19 14:08:50 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,59 +75,7 @@ int	main(int argc, char *argv[])
 	image->img = mlx_xpm_file_to_image(windo->mlx, "WALL.xpm", &image->img_w, &image->img_h);
 	image->adr = mlx_get_data_addr(image->img, &image->bits_per_pixel, &image->size_line, &image->endian);
 
-// int color = 0xABCDEF;
-// if (image->bits_per_pixel != 32)
-//     color = mlx_get_color_value(windo->mlx, color);
-
-int 	counter = 0;
-
-for(int y = 0; y < 300; ++y)
-{
-for(int x = 0; x < 200; ++x)
-{
-    int pixel = (y * image->bits_per_pixel) + (x * 4);
-	int color = (int)image->adr[pixel];
-
-    if (image->endian == 1)        // Most significant (Alpha) byte first
-    {
-		printf("------- 1--------\n");
-		// color = create_trgb(image->adr[pixel + 3], image->adr[pixel + 2], image->adr[pixel + 1], image->adr[pixel + 0]);
-        image->adr[pixel + 0] = (color >> 24);
-        image->adr[pixel + 1] = (color >> 16) & 0xFF;
-        image->adr[pixel + 2] = (color >> 8) & 0xFF;
-        image->adr[pixel + 3] = (color) & 0xFF;
-    }
-    else if (image->endian == 0)   // Least significant (Blue) byte first
-    {
-		printf("------- 2--------\n");
-		// color = create_trgb(image->adr[pixel + 0], image->adr[pixel + 1], image->adr[pixel + 2], image->adr[pixel + 3]);
-        image->adr[pixel + 0] = (color) & 0xFF;
-        image->adr[pixel + 1] = (color >> 8) & 0xFF;
-        image->adr[pixel + 2] = (color >> 16) & 0xFF;
-        image->adr[pixel + 3] = (color >> 24);
-    }
-	// mlx_put_image_to_window(windo->mlx, windo->win, windo->image, 0, 0);
-	mlx_pixel_put(windo->mlx, windo->win, y, x, (int)image->adr[counter++]);
-	// image->adr += 4;
-}
-}
-// for(int y = 0; y < 100; ++y)
-// {	
-// for(int x = 0; x < 200; ++x)
-// {
-
-
-//     int pixel = (int)*image->adr + (y * image->size_line + x * (image->bits_per_pixel / 8));
-// 	mlx_pixel_put(windo->mlx, windo->win, y, x, (int)image->adr[pixel]);
-// }
-// }	
-	
-	// for (int i = 0; i < windo->image->size_line; i++)
-	// 	mlx_pixel_put(windo->mlx, windo->win, 4, i, 0x0000FF00);
-	
-	// printf("%d\n", windo->image->adr);
 	mlx_hook(windo->win, X_EVENT_KEY_EXIT, 0, exit_game, windo);
-	// mlx_key_hook(game.win, key_hook, &game);
 	mlx_loop(windo->mlx);
 	// free_main(game);
 	return (0);
@@ -135,13 +83,6 @@ for(int x = 0; x < 200; ++x)
 
 
 
-
-
-
-
-
-
-	// https://github.com/say10co/Cube3d_
 	// printf("SO :%s\n", game->map->textur->south_texture);
 	// printf("WE :%s\n", game->map->textur->west_texture);
 	// printf("NO :%s\n", game->map->textur->north_texture);
