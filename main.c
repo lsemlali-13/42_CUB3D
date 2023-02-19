@@ -8,19 +8,15 @@ char	**read_map(int fd)
 	return (ft_split(s, '\n'));
 }
 
-unsigned int	get_color(t_img *data, int x, int y, t_player *p, double wallh)
+unsigned int	get_color(t_img *data, int x, int y)
 {
 	char *dst;
 
-	// printf("%d --- %d\n", x,y);
-	(void)p;
-	(void)wallh;
-	//x = (int)wallh % p->h;
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	return (*(unsigned int*)dst);
 }
 
-void	my_pixel_put(t_img *data, int x, int y, unsigned int color)
+void	my_pixel_put(t_img *data, int x, int y, int color)
 {
 	char *dst;
 
@@ -28,30 +24,47 @@ void	my_pixel_put(t_img *data, int x, int y, unsigned int color)
 	*(unsigned int*)dst = color;
 }
 
-int draw_line(double x, double y, double toy, unsigned int color, t_img *p_img, t_player *p, double wallh, int k)
+t_img	get_wich(t_player *p)
 {
-	(void)p;
-	double py = y;
-	int newy;
-	// int newx;
+	if (p->which_tex == 'E')
+		return (p->img_e);
+	if (p->which_tex == 'N')
+		return (p->img_n);
+	if (p->which_tex == 'W')
+		return (p->img_w);
+	return (p->img_s);
+}
 
-	//newy = py - (floor(py / TILE_SIZE) * TILE_SIZE);
-	//newx = x - (floor(x / TILE_SIZE) * TILE_SIZE);
+int draw_texture(double x, double y, double toy, t_img *p_img, t_player *p, double wallh)
+{
+	double newy;
+	int color;
+	t_img	img;
+
+	img = get_wich(p);
 	newy = 0;
-	//int k = p->h / wallh;
-	while (py < toy)
+	double inc = img.h / (2 * wallh);
+	p->tox = floor((int)(img.w * ((p->tox + p->toy) / TILE_SIZE)) % img.w);
+	if ((2 * wallh) > p->map_height)
+		newy = (int)((((2 * wallh) - p->map_height) / 2) * inc) % img.h;
+	while (y < toy)
 	{
-		if (p->check == -1)
-			color = get_color(&p->img, k, newy, p, wallh);
-		my_pixel_put(p_img, x, py, (unsigned int )color);
-		py++;
-		newy += p->h / (2 * wallh);
-		newy %= p->h;
-		//if (newy > 2400)
-		//{
-		//	newx++;
-		//	newy = 0;
-		//}
+		color = get_color(&img, p->tox, roundf(newy));
+		my_pixel_put(p_img, x, y, color);
+		y++;
+		newy += inc;
+		if (newy > img.h)
+			newy = (int)newy % img.h;
+	}
+	return (0);
+}
+
+int draw_line(double x, double y, double toy, int color, t_img *p_img)
+{	
+	while (y < toy)
+	{
+		my_pixel_put(p_img, x, y, color);
+		y++;
 	}
 	return (0);
 }
@@ -61,66 +74,26 @@ void	ren3d(t_player *p)
 	p->rayangle = p->rotangle + (FOV / 2);
 
 	t_img *p_img;
+	// t_point dst;
 	p_img = malloc(sizeof(t_img));
 	p_img->img = mlx_new_image(p->win->mlx_p, p->map_width, p->map_height);
 	p_img->addr = mlx_get_data_addr(p_img->img, &(p_img->bits_per_pixel), &(p_img->line_length), &(p_img->endian));
-	unsigned int color;
-	int k = 0;
 	for (int i = 0; i < p->map_width; i++)
 	{
 		p->tox = p->x;
 		p->toy = p->y;
-		dda(p, &color);
-		if (i == 0)
-			k = p->tox - floor(p->tox / TILE_SIZE) * TILE_SIZE;
+		dda(p);
 		double dis = sqrt(pow(p->x - p->tox, 2.0) + pow(p->y - p->toy, 2.0));
 		dis = dis * cos(degtorad(p->rayangle - p->rotangle));
 		double wallh = roundf((p->map_height / dis) * TILE_SIZE);
 		if (wallh > p->map_height / 2)
 			wallh = p->map_height / 2;
-		// draw_line(i, 0, (p->map_height / 2) - wallh, BLUE, p_img, p);
-		if ((int)p->tox % TILE_SIZE == 0 && (int)(p->tox * 10) % 10  == 0)
-			k = 0;
-		
-		printf("%d --- %f\n", k, wallh);
-		draw_line(i, (p->map_height / 2) - wallh, (p->map_height / 2) + wallh, color, p_img, p, wallh, k);
-		k += p->w / wallh;
-		k %= p->w;
-		// draw_line(i, (p->map_height / 2) + wallh,  p->map_height - 1, BLACK, p_img, p);
+		draw_line(i, 0, (p->map_height / 2) - wallh, BLUE, p_img);
+		draw_texture(i, (p->map_height / 2) - wallh, (p->map_height / 2) + wallh, p_img, p, roundf((p->map_height / dis) * TILE_SIZE));
+		draw_line(i, (p->map_height / 2) + wallh,  p->map_height - 1, BLACK, p_img);
 		p->rayangle -= FOV / p->map_width;
 	}
 	mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p_img->img, 0, 0);
-}
-
-void	clear_wind(t_player *p)
-{
-	int i = 0;
-	int j;
-	int x = 0;
-	int y = 0;
-
-	while (p->map[i])
-	{
-		j = 0;
-		x = 0;
-		while (p->map[i][j])
-		{
-			if (p->map[i][j] == '1')
-				mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_1, x, y);
-			else if (p->map[i][j] == 'p')
-			{
-				mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, x, y);
-				// mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_p, x, y);
-			}
-			else {
-				mlx_put_image_to_window(p->win->mlx_p, p->win->mlx_w, p->win->img_0, x, y);
-			}
-			j++;
-			x += TILE_SIZE;
-		}
-		i++;
-		y += TILE_SIZE;
-	}
 }
 
 void	get_player_pos(t_player *p, int c)
@@ -167,13 +140,13 @@ int	is_valid(t_player *p, double x, double y)
 {
 	if (p->map[(int)(y / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1')
 		return (0);
-	if (p->map[(int)((y - 3) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1')
+	if (p->map[(int)((y - 5) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1')
 		return (0);
-	if (p->map[(int)((y + 3) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1')
+	if (p->map[(int)((y + 5) / TILE_SIZE)][(int)(x / TILE_SIZE)] == '1')
 		return (0);
-	if (p->map[(int)(y / TILE_SIZE)][(int)((x - 3) / TILE_SIZE)] == '1')
+	if (p->map[(int)(y / TILE_SIZE)][(int)((x - 5) / TILE_SIZE)] == '1')
 		return (0);
-	if (p->map[(int)(y / TILE_SIZE)][(int)((x + 3) / TILE_SIZE)] == '1')
+	if (p->map[(int)(y / TILE_SIZE)][(int)((x + 5) / TILE_SIZE)] == '1')
 		return (0);
 	return (1);
 }
@@ -232,6 +205,19 @@ int	key_hook(int keycode, void *p)
 	return (0);
 }
 
+void	load_textures(t_player *p)
+{
+	p->img_e.img = mlx_xpm_file_to_image(p->win->mlx_p, "textures/img.xpm", &p->img_e.w, &p->img_e.h);
+	p->img_n.img = mlx_xpm_file_to_image(p->win->mlx_p, "textures/img1.xpm", &p->img_n.w, &p->img_n.h);
+	p->img_w.img = mlx_xpm_file_to_image(p->win->mlx_p, "textures/img2.xpm", &p->img_w.w, &p->img_w.h);
+	p->img_s.img = mlx_xpm_file_to_image(p->win->mlx_p, "textures/img3.xpm", &p->img_s.w, &p->img_s.h);
+
+	p->img_e.addr = mlx_get_data_addr(p->img_e.img, &(p->img_e.bits_per_pixel), &(p->img_e.line_length), &(p->img_e.endian));
+	p->img_n.addr = mlx_get_data_addr(p->img_n.img, &(p->img_n.bits_per_pixel), &(p->img_n.line_length), &(p->img_n.endian));
+	p->img_w.addr = mlx_get_data_addr(p->img_w.img, &(p->img_w.bits_per_pixel), &(p->img_w.line_length), &(p->img_w.endian));
+	p->img_s.addr = mlx_get_data_addr(p->img_s.img, &(p->img_s.bits_per_pixel), &(p->img_s.line_length), &(p->img_s.endian));
+}
+
 int main()
 {
 	t_win		*win;
@@ -248,12 +234,8 @@ int main()
 	fd = open("maps/map.cub", O_RDWR);
 	map = read_map(fd);
 	p->map = map;
-	// int w = 100, h = 100;
-	p->img.img = mlx_xpm_file_to_image(p->win->mlx_p, "img.xpm", &p->w, &p->h);
-	p->img.addr = mlx_get_data_addr(p->img.img, &(p->img.bits_per_pixel), &(p->img.line_length), &(p->img.endian));
-
+	load_textures(p);
 	get_player_info(map, p);
-	printf("%d --- \n", p->map_width);
 	win->mlx_w = mlx_new_window(win->mlx_p, p->map_width, p->map_height, "CUB3D");
 	ren3d(p);
 	mlx_hook(win->mlx_w, 2, 0, key_hook, p);
