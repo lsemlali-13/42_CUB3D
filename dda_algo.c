@@ -223,7 +223,7 @@ double	get_dis(double stx, double sty, double endx, double endy)
 
 
 
-void	dda(t_player *p, unsigned int *color)
+void	dda(t_player *p)
 {
 	t_point hor;
 	t_point ver;
@@ -236,24 +236,23 @@ void	dda(t_player *p, unsigned int *color)
 	ver.y = p->toy;
 	dish = get_dis(p->x, p->y, hor.x, hor.y);
 	disv = get_dis(p->x, p->y, ver.x, ver.y);
-	p->check = 0;
 	if (((dish > disv) && disv != 0) || dish == 0)
 	{
 		if (sin(degtorad(p->rayangle)) > 0)
 		{
-			p->check = -1;
+			p->which_tex = 'N';
 		}
 		else
-			*color = WHITE;
+			p->which_tex = 'S';
 		p->tox = ver.x;
 		p->toy = ver.y;
 	}
 	else
 	{
 		if (cos(degtorad(p->rayangle)) > 0)
-			*color = GREEN;
+			p->which_tex = 'E';
 		else
-			*color = PURPLE;
+			p->which_tex = 'W';
 		p->tox = hor.x;
 		p->toy = hor.y;
 	}

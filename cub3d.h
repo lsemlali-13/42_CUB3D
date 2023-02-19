@@ -45,6 +45,8 @@ typedef struct s_point
 
 typedef struct s_img{
 	void	*img;
+	int		w;
+	int		h;
 	char	*addr;
 	char	*dst;
 	int		bits_per_pixel;
@@ -65,24 +67,26 @@ typedef struct s_win{
 typedef struct s_player{
 	t_win		*win;
 	char		**map;
-	int check;
+	int			which_tex;
 	double		tox;
 	double		toy;
 	double 		rotangle;
 	double		rayangle;
-	int			imgx;
 	double		x;
 	double		y;
 	int			h;
 	int			w;
 	int			map_height;
 	int			map_width;
-	t_img		img;
+	t_img		img_e;
+	t_img		img_n;
+	t_img		img_w;
+	t_img		img_s;
 } t_player;
 
 
 char	**ft_split(char const *s, char c);
-void	dda(t_player *p, unsigned int *color);
+void	dda(t_player *p);
 double	degtorad(double ang);
 int		ft_strlen(char *s);
 int		is_wallh(t_player *p, int x, int y);
