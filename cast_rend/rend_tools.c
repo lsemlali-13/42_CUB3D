@@ -1,19 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rend_tools.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/20 12:42:00 by lsemlali          #+#    #+#             */
+/*   Updated: 2023/02/20 12:43:34 by lsemlali         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/raycasting.h"
 
 int	get_color(t_img data, int x, int y)
 {
-	char *dst;
+	char	*dst;
 
 	dst = data.addr + (y * data.line_length + x * (data.bits_per_pixel / 8));
-	return (*(unsigned int*)dst);
+	return (*(unsigned int *) dst);
 }
 
 void	my_pixel_put(t_img data, int x, int y, int color)
 {
-	char *dst;
+	char	*dst;
 
 	dst = data.addr + (y * data.line_length + x * (data.bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *) dst = color;
 }
 
 t_img	get_wich(t_player *p)

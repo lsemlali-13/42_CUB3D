@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:39:12 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/19 18:42:47 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/19 19:01:37 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	check_characters(char c)
 void	check_is_closed(char **map, int size)
 {
 	int	i;
-	size_t	j;
+	int	j;
 
 	i = 0;
 	while (map[++i] && i < size)

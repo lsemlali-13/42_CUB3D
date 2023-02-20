@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:00:34 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/19 18:04:15 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:31:56 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	free_collor(char **stock1, char **stock2)
 		free(stock2[i]);
 		i++;
 	}
+	if (i > 3)
+		ft_error("error in colors\n");
 	free(stock2);
 }
 

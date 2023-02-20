@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:31:14 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/19 18:00:16 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:33:59 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,9 @@ void	free_main(t_game *game)
 	while (game->map->height > 0)
 		free(game->map->map[game->map->height] - 1);
 	free(game->map->map);
-	// free(game->map->ceilling_color);
-	// free(game->map->floor_color);
 	free(game->map);
 	free(game);
 }
-
-// int	exit_game(t_windo *windo)
-// { 
-// 	mlx_destroy_window(windo->mlx, windo->win);
-// 	exit(0);
-// }
 
 t_game	*parsing(int argc, char **argv)
 {
@@ -77,7 +69,7 @@ int	main(int argc, char *argv[])
 
 	// mlx_hook(windo->win, X_EVENT_KEY_EXIT, 0, exit_game, windo);
 	// mlx_loop(windo->mlx);
-	// free_main(game);
+	free_main(game);
 	return (0);
 }
 

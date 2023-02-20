@@ -6,15 +6,15 @@
 #    By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/02 22:03:03 by rarahhal          #+#    #+#              #
-#    Updated: 2023/02/19 18:41:49 by lsemlali         ###   ########.fr        #
+#    Updated: 2023/02/20 12:18:00 by lsemlali         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
-CFLAGS = -Wall -Werror -Wextra
-CC = cc #-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror
+CC = cc
 
-SRCS = Mandatory/cub3d.c \
+SRCS =  Mandatory/cub3d.c \
 		Mandatory/parser/ft_check_file.c \
 		Mandatory/parser/ft_error.c \
 		Mandatory/parser/map_setting.c \
@@ -28,6 +28,9 @@ SRCS = Mandatory/cub3d.c \
 		cast_rend/rend_tools.c \
 		cast_rend/player_movement.c \
 		cast_rend/dda_algo.c \
+		cast_rend/dda_horisontal.c \
+		cast_rend/dda_vertical.c \
+		cast_rend/player_info.c \
 
 LIBFT = Libft/ft_calloc.c \
 		Libft/ft_strchr.c \
@@ -44,7 +47,6 @@ LIBFT = Libft/ft_calloc.c \
 
 OBJS = $(SRCS:.c=.o)
 OBJS_L = $(LIBFT:.c=.o)
-OBJS_B = $(BONUS_SRCS:.c=.o)
 
 
 $(NAME): $(OBJS) $(OBJS_L)
@@ -53,9 +55,7 @@ $(NAME): $(OBJS) $(OBJS_L)
 all: $(NAME)
 
 clean:
-	@rm -f Mandatory/*.o
-	@rm -f Mandatory/parser/*.o
-	@rm -f Libft/*.o
+	@rm -f $(OBJS) $(OBJS_L)
 
 fclean: clean
 	@rm -f $(NAME)

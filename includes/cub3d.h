@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:20:11 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/19 14:52:20 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:38:10 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,7 @@
 # include <fcntl.h>
 
 # define X_EVENT_KEY_EXIT       17
-
-# define KEY_ESC    65307
-# define KEY_W      119
-# define KEY_A      97
-# define KEY_S      115
-# define KEY_D      100
-
-// typedef struct s_image
-// {
-// 	void	*img;
-// 	char	*adr;
-// 	int		bits_per_pixel;
-// 	int		size_line;
-// 	int		endian;
-// 	int		img_h;
-// 	int		img_w;
-// }	t_image;
-
+# define ESC       53
 
 typedef struct s_textur
 {
@@ -85,7 +68,7 @@ typedef struct s_game
 }	t_game;
 
 // libft
-size_t	ft_strlen(const char *s);
+int		ft_strlen(const char *s);
 char	*get_next_line(int fd);
 char	*get_next_line_2(int fd);
 char	*ft_strjoin(char const *s1, char const *s2);
