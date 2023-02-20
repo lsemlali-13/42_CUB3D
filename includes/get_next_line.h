@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 20:17:14 by rarahhal          #+#    #+#             */
-/*   Updated: 2022/06/14 14:56:17 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/19 19:01:30 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ char	*ft_strchr(const char *s, int c);
 void	ft_bzero(void	*s, size_t	n);
 void	*ft_calloc(size_t count, size_t size);
 
-size_t	ft_strlen(const char *s);
+int     ft_strlen(const char *s);
 
 #endif

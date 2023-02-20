@@ -2,7 +2,7 @@
 # define RAYCASTING_H
 
 # define FOV 66.66
-# define SPEED 7
+# define SPEED 5
 # define WIDTH 1500
 # define HEIGHT 1200
 # define TILE_SIZE 30
@@ -94,6 +94,9 @@ t_img	get_wich(t_player *p);
 int		get_color(t_img data, int x, int y);
 void	my_pixel_put(t_img data, int x, int y, int color);
 void	move_player(int key, t_player *p);
+void	get_player_info(char **map, t_player *p);
+void	ddah(t_player *p);
+void	ddav(t_player *p);
 
 
 #endif

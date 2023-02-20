@@ -1,91 +1,75 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cast_rend.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/20 11:33:49 by lsemlali          #+#    #+#             */
+/*   Updated: 2023/02/20 12:38:43 by lsemlali         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/raycasting.h"
 
-void	get_player_pos(t_player *p, int c)
+int	exit_game(t_win *win)
 {
-	if (c == 'E')
-		p->rotangle = 0;
-	if (c == 'N')
-		p->rotangle = 90;
-	if (c == 'W')
-		p->rotangle = 180;
-	if (c == 'S')
-		p->rotangle = 270;
-}
-
-void	get_player_info(char **map, t_player *p)
-{
-	int i = 0;
-	int j;
-
-	p->map_width = 0;
-	while (map[i])
-	{
-		j = 0;
-		if (ft_strlen(map[i]) * TILE_SIZE > p->map_width)
-			p->map_width = ft_strlen(map[i]) * TILE_SIZE;
-		while (map[i][j])
-		{
-			if (map[i][j] == 'N' || map[i][j] == 'W' || map[i][j] == 'E' || map[i][j] == 'S')
-			{
-				get_player_pos(p, map[i][j]);
-				p->x = (j * TILE_SIZE) + TILE_SIZE / 2;
-				p->y = (i * TILE_SIZE) + TILE_SIZE / 2;
-				p->tox = p->x;
-				p->toy = p->y;
-			}
-			j++;
-		}
-		i++;
-	}
-	p->map_height = i * TILE_SIZE;
+	mlx_destroy_window(win->mlx_p, win->mlx_w);
+	exit(0);
 }
 
 int	key_hook(int keycode, void *p)
 {
-	t_player *pl = (t_player *)p;
+	t_player	*pl;
+
+	pl = (t_player *)p;
+	if (keycode == ESC)
+		exit_game(pl->win);
 	move_player(keycode, pl);
 	return (0);
 }
 
 void	load_textures(t_player *p)
 {
-	p->img_e.img = mlx_xpm_file_to_image(p->win->mlx_p, "textures/img.xpm", &p->img_e.w, &p->img_e.h);
-	p->img_n.img = mlx_xpm_file_to_image(p->win->mlx_p, "textures/img1.xpm", &p->img_n.w, &p->img_n.h);
-	p->img_w.img = mlx_xpm_file_to_image(p->win->mlx_p, "textures/img2.xpm", &p->img_w.w, &p->img_w.h);
-	p->img_s.img = mlx_xpm_file_to_image(p->win->mlx_p, "textures/img3.xpm", &p->img_s.w, &p->img_s.h);
-	// p->img_e.img = mlx_xpm_file_to_image(p->win->mlx_p, p->map->textur->east_texture, &p->img_e.w, &p->img_e.h);
-	// printf("hello\n");
-	// p->img_n.img = mlx_xpm_file_to_image(p->win->mlx_p, p->map->textur->north_texture, &p->img_n.w, &p->img_n.h);
-	// p->img_w.img = mlx_xpm_file_to_image(p->win->mlx_p, p->map->textur->west_texture, &p->img_w.w, &p->img_w.h);
-	// p->img_s.img = mlx_xpm_file_to_image(p->win->mlx_p, p->map->textur->south_texture, &p->img_s.w, &p->img_s.h);
-
-	p->img_e.addr = mlx_get_data_addr(p->img_e.img, &(p->img_e.bits_per_pixel), &(p->img_e.line_length), &(p->img_e.endian));
-	p->img_n.addr = mlx_get_data_addr(p->img_n.img, &(p->img_n.bits_per_pixel), &(p->img_n.line_length), &(p->img_n.endian));
-	p->img_w.addr = mlx_get_data_addr(p->img_w.img, &(p->img_w.bits_per_pixel), &(p->img_w.line_length), &(p->img_w.endian));
-	p->img_s.addr = mlx_get_data_addr(p->img_s.img, &(p->img_s.bits_per_pixel), &(p->img_s.line_length), &(p->img_s.endian));
+	p->img_e.img = mlx_xpm_file_to_image(p->win->mlx_p, \
+		p->map->textur->east_texture, &p->img_e.w, &p->img_e.h);
+	p->img_n.img = mlx_xpm_file_to_image(p->win->mlx_p, \
+		p->map->textur->north_texture, &p->img_n.w, &p->img_n.h);
+	p->img_w.img = mlx_xpm_file_to_image(p->win->mlx_p, \
+		p->map->textur->west_texture, &p->img_w.w, &p->img_w.h);
+	p->img_s.img = mlx_xpm_file_to_image(p->win->mlx_p, \
+		p->map->textur->south_texture, &p->img_s.w, &p->img_s.h);
+	if (!p->img_e.img || !p->img_n.img || !p->img_w.img || !p->img_s.img)
+		ft_error("error in xpm files\n");
+	p->img_e.addr = mlx_get_data_addr(p->img_e.img, &(p->img_e.bits_per_pixel), \
+		&(p->img_e.line_length), &(p->img_e.endian));
+	p->img_n.addr = mlx_get_data_addr(p->img_n.img, &(p->img_n.bits_per_pixel), \
+		&(p->img_n.line_length), &(p->img_n.endian));
+	p->img_w.addr = mlx_get_data_addr(p->img_w.img, &(p->img_w.bits_per_pixel), \
+		&(p->img_w.line_length), &(p->img_w.endian));
+	p->img_s.addr = mlx_get_data_addr(p->img_s.img, &(p->img_s.bits_per_pixel), \
+		&(p->img_s.line_length), &(p->img_s.endian));
 }
 
 void	cast_rend(t_map *map)
 {
 	t_win		*win;
 	t_player	*p;
-	int			fd;
 
 	p = malloc(sizeof(t_player));
 	win = malloc(sizeof(t_win));
 	win->mlx_p = mlx_init();
 	p->win = win;
-	// fd = open("maps/map.cub", O_RDWR);
-	// map = read_map(fd);
 	p->map = map;
 	load_textures(p);
 	get_player_info(map->map, p);
-	win->mlx_w = mlx_new_window(win->mlx_p, p->map_width, p->map_height, "CUB3D");
-	
+	win->mlx_w = mlx_new_window(win->mlx_p, \
+		p->map_width, p->map_height, "CUB3D");
 	p->wind.img = mlx_new_image(p->win->mlx_p, p->map_width, p->map_height);
-	p->wind.addr = mlx_get_data_addr(p->wind.img, &(p->wind.bits_per_pixel), &(p->wind.line_length), &(p->wind.endian));
-
+	p->wind.addr = mlx_get_data_addr(p->wind.img, &(p->wind.bits_per_pixel), \
+		&(p->wind.line_length), &(p->wind.endian));
 	ren3d(p);
+	mlx_hook(win->mlx_w, X_EVENT_KEY_EXIT, 0, exit_game, win);
 	mlx_hook(win->mlx_w, 2, 0, key_hook, p);
 	mlx_loop(win->mlx_p);
 }
