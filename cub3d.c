@@ -6,11 +6,11 @@
 /*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:31:14 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/21 15:36:33 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:53:36 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "includes/cub3d.h"
 
 t_game	*parsing(int argc, char **argv)
 {

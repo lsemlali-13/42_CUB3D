@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:20:11 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/21 14:27:32 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:51:28 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ typedef struct s_textur
 	char	*east_texture;
 }	t_textur;
 
-typedef struct s_color
-{
-	int	r;
-	int	g;
-	int	b;
-}	t_color;
+// typedef struct s_color
+// {
+// 	int	r;
+// 	int	g;
+// 	int	b;
+// }	t_color;
 
 typedef struct s_vector
 {
@@ -83,11 +83,10 @@ void	map_setting(t_game *game);
 int		collect_element(t_game *game);
 void	hndl_collore(t_game *game, int i);
 void	hndl_textur(t_game *game, int i);
-void	check_texture(t_textur *textur);
+void	textur_extention(char *str);
+void	check_existing(char *str);
 void	collect_map(t_game *game, int index);
 void	check_map(t_map *map);
-// t_textur	*get_texture(t_game *game);
-// int			get_collore(t_game *game);
 
 // rendering 
 void	cast_rend(t_map *map);

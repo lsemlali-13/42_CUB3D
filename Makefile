@@ -3,26 +3,26 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+         #
+#    By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/02 22:03:03 by rarahhal          #+#    #+#              #
-#    Updated: 2023/02/21 13:25:45 by lsemlali         ###   ########.fr        #
+#    Updated: 2023/02/21 15:52:19 by rarahhal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror
 CC = cc
 
-SRCS =  Mandatory/cub3d.c \
-		Mandatory/parser/ft_check_file.c \
-		Mandatory/parser/ft_error.c \
-		Mandatory/parser/map_setting.c \
-		Mandatory/parser/collect_element.c \
-		Mandatory/parser/collores.c \
-		Mandatory/parser/texture.c \
-		Mandatory/parser/collect_map.c \
-		Mandatory/parser/check_map.c \
+SRCS =  cub3d.c \
+		parser/ft_check_file.c \
+		parser/ft_error.c \
+		parser/map_setting.c \
+		parser/collect_element.c \
+		parser/collores.c \
+		parser/texture.c \
+		parser/collect_map.c \
+		parser/check_map.c \
 		cast_rend/cast_rend.c \
 		cast_rend/rendering3d.c \
 		cast_rend/rend_tools.c \

@@ -6,11 +6,11 @@
 /*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 20:31:11 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/14 14:31:26 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:52:38 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../includes/cub3d.h"
 
 void	handl_element(t_game *game, int i)
 {

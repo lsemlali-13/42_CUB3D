@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rizqy <rizqy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 12:08:32 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/10 14:24:15 by rizqy            ###   ########.fr       */
+/*   Updated: 2023/02/21 15:52:57 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../includes/cub3d.h"
 
 void	ft_error(char *error)
 {

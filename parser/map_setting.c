@@ -3,15 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   map_setting.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:04:29 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/19 18:06:42 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:53:03 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
-#include "../../includes/get_next_line.h"
+#include "../includes/cub3d.h"
+#include "../includes/get_next_line.h"
+
+void	check_texture(t_textur *textur)
+{
+	textur_extention(textur->north_texture);
+	textur_extention(textur->south_texture);
+	textur_extention(textur->west_texture);
+	textur_extention(textur->east_texture);
+	check_existing(textur->north_texture);
+	check_existing(textur->south_texture);
+	check_existing(textur->west_texture);
+	check_existing(textur->east_texture);
+}
 
 int	get_file_size(char *filename)
 {
@@ -103,6 +115,3 @@ void	map_setting(t_game *game)
 	if (!game->map->starting_pos)
 		ft_error("playr not fond in map\n");
 }
-
-	// game->map->textur = get_texture(game);
-	// index = get_collore(game);
