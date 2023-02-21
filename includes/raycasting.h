@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 14:28:27 by lsemlali          #+#    #+#             */
-/*   Updated: 2023/02/21 14:28:28 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:34:45 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	dda(t_player *p);
 double	degtorad(double ang);
 // int		ft_strlen(char *s);
 int		is_wallh(t_player *p, int x, int y);
-void	ren3d(t_player *p);
+void	 ren3d(t_player *p);
 t_img	get_wich(t_player *p);
 int		get_color(t_img data, int x, int y);
 void	my_pixel_put(t_img data, int x, int y, int color);
