@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:33:52 by lsemlali          #+#    #+#             */
-/*   Updated: 2023/02/20 11:38:13 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:28:36 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,10 @@ void	get_player_info(char **map, t_player *p)
 	int	i;
 	int	j;
 
-	p->map_width = 0;
 	i = 0;
 	while (map[i])
 	{
 		j = 0;
-		if (ft_strlen(map[i]) * TILE_SIZE > p->map_width)
-			p->map_width = ft_strlen(map[i]) * TILE_SIZE;
 		while (map[i][j])
 		{
 			if (map[i][j] == 'N' || map[i][j] == 'W'

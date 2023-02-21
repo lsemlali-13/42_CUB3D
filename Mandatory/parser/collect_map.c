@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:55:20 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/19 18:24:06 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:28:56 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	collect_map(t_game *game, int index)
 		game->map->height++;
 	}
 	game->map->map = malloc(sizeof(char *) * (game->map->height + 1));
-	while (index < game->size && game->map_contant[index])
+	while (i < game->map->height && game->map_contant[index])
 		game->map->map[i++] = ft_strdup(game->map_contant[index++]);
 	game->map->map[i] = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:31:14 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/20 12:33:59 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:34:09 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,41 +53,8 @@ int	main(int argc, char *argv[])
 
 	game = parsing(argc, argv);
 	cast_rend(game->map);
-	// windo =  malloc(sizeof(t_windo));
-	// windo->image = malloc(sizeof(t_image));
-	// windo->mlx = mlx_init();
-	// windo->win = mlx_new_window(windo->mlx, 1000,
-	// 		1000, "cub3D_1337");
-	// windo->image->img_h = 600;
-	// windo->image->img_w = 500;
-	// windo->image->img = mlx_new_image(windo->mlx, windo->image->img_w, windo->image->img_h);
-	// windo->image->adr = mlx_get_data_addr(windo->image->img, &windo->image->bits_per_pixel, &windo->image->size_line, &windo->image->endian);
-
-	// image = malloc(sizeof(t_image));
-	// image->img = mlx_xpm_file_to_image(windo->mlx, "WALL.xpm", &image->img_w, &image->img_h);
-	// image->adr = mlx_get_data_addr(image->img, &image->bits_per_pixel, &image->size_line, &image->endian);
-
-	// mlx_hook(windo->win, X_EVENT_KEY_EXIT, 0, exit_game, windo);
-	// mlx_loop(windo->mlx);
 	free_main(game);
 	return (0);
 }
 
 
-
-	// printf("SO :%s\n", game->map->textur->south_texture);
-	// printf("WE :%s\n", game->map->textur->west_texture);
-	// printf("NO :%s\n", game->map->textur->north_texture);
-	// printf("EA :%s\n", game->map->textur->east_texture);
-	// printf("CELER\n");
-	// printf("%d\n", game->map->ceilling_color->r);
-	// printf("%d\n", game->map->ceilling_color->g);
-	// printf("%d\n", game->map->ceilling_color->b);
-	// printf("FLLOR\n");
-	// printf("%d\n", game->map->floor_color->r);
-	// printf("%d\n", game->map->floor_color->g);
-	// printf("%d\n", game->map->floor_color->b);
-	// for(int v = 0; v <= game->map->height; v++)
-	// 	printf("%s\n", game->map->map[v]);
-	// printf("START POSITION: %c(x=%d, y=%d)\n", game->map->starting_pos,
-	// 	game->map->player.x, game->map->player.y);

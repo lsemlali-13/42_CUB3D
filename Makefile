@@ -6,12 +6,12 @@
 #    By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/02 22:03:03 by rarahhal          #+#    #+#              #
-#    Updated: 2023/02/20 12:18:00 by lsemlali         ###   ########.fr        #
+#    Updated: 2023/02/21 13:25:45 by lsemlali         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
 CC = cc
 
 SRCS =  Mandatory/cub3d.c \

@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:20:11 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/20 12:38:10 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:27:32 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ typedef struct s_map
 	int			height;
 	t_textur	*textur;
 	char		starting_pos;
-	// t_color		*floor_color;
-	// t_color		*ceilling_color;
 	int			floor_color;
 	int			ceilling_color;
 	t_vector	player;
@@ -77,7 +75,6 @@ void	ft_putnbr(int n);
 char	**ft_split(char const *s, char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_atoi(const char *str);
-
 
 // parser Function
 void	ft_check_file(t_game *game);

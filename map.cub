@@ -1,14 +1,14 @@
-NO ./textures/img.xpm
-SO ./textures/img1.xpm
-EA ./textures/img2.xpm
-WE ./textures/img3.xpm
+NO real_tex/fav1.xpm
+SO real_tex/fav2.xpm
+EA real_tex/fav3.xpm
+WE real_tex/imgg.xpm
 
 
 F 220,100,0
 C 51,255,255
 
         1111111111111111111111111
-        1000000000110001000001001
+        1000000000110001001001001
         101100000000001000N100101
         1011000001110000101010001
         1011000001110000010000001
