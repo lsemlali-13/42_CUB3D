@@ -6,7 +6,7 @@
 /*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 14:28:27 by lsemlali          #+#    #+#             */
-/*   Updated: 2023/02/21 15:34:45 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:56:54 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@
 
 typedef struct s_point
 {
-	double x;
-	double signx;
-	double y;
-	double signy;
+	double	x;
+	double	signx;
+	double	y;
+	double	signy;
 }	t_point;
 
 typedef struct s_img{
@@ -64,7 +64,7 @@ typedef struct s_img{
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-} t_img;
+}	t_img;
 
 typedef struct s_win{
 	void	*mlx_p;
@@ -72,7 +72,7 @@ typedef struct s_win{
 	void	*img_0;
 	void	*img_1;
 	void	*img_p;
-} t_win;
+}	t_win;
 
 typedef struct s_player{
 	t_win		*win;
@@ -80,12 +80,10 @@ typedef struct s_player{
 	int			which_tex;
 	double		tox;
 	double		toy;
-	double 		rotangle;
+	double		rotangle;
 	double		rayangle;
 	double		x;
 	double		y;
-	// int			h;
-	// int			w;
 	int			map_height;
 	int			win_height;
 	int			win_width;
@@ -94,15 +92,13 @@ typedef struct s_player{
 	t_img		img_n;
 	t_img		img_w;
 	t_img		img_s;
-} t_player;
-
+}	t_player;
 
 char	**ft_split(char const *s, char c);
 void	dda(t_player *p);
 double	degtorad(double ang);
-// int		ft_strlen(char *s);
 int		is_wallh(t_player *p, int x, int y);
-void	 ren3d(t_player *p);
+void	ren3d(t_player *p);
 t_img	get_wich(t_player *p);
 int		get_color(t_img data, int x, int y);
 void	my_pixel_put(t_img data, int x, int y, int color);
@@ -110,6 +106,5 @@ void	move_player(int key, t_player *p);
 void	get_player_info(char **map, t_player *p);
 void	ddah(t_player *p);
 void	ddav(t_player *p);
-
 
 #endif

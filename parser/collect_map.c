@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   collect_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:55:20 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/20 15:28:56 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:52:43 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../includes/cub3d.h"
 
 void	collect_map(t_game *game, int index)
 {
@@ -20,7 +20,7 @@ void	collect_map(t_game *game, int index)
 	while (game->map_contant[index] && !game->map_contant[index][0])
 		index++;
 	game->map->height = 0;
-	while ( game->map_contant[index + game->map->height]
+	while (game->map_contant[index + game->map->height]
 		&& game->map_contant[index + game->map->height][0])
 	{
 		if (game->map_contant[index + game->map->height][0] != '1'
