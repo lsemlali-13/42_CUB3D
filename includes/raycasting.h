@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/21 14:28:27 by lsemlali          #+#    #+#             */
+/*   Updated: 2023/02/21 14:28:28 by lsemlali         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef RAYCASTING_H
 # define RAYCASTING_H
 
@@ -75,7 +87,8 @@ typedef struct s_player{
 	// int			h;
 	// int			w;
 	int			map_height;
-	int			map_width;
+	int			win_height;
+	int			win_width;
 	t_img		wind;
 	t_img		img_e;
 	t_img		img_n;

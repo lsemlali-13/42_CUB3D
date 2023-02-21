@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 12:14:51 by lsemlali          #+#    #+#             */
-/*   Updated: 2023/02/20 12:39:38 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:44:09 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ void	ddah(t_player *p)
 	t_point	inc;
 	t_point	grid;
 
-	d.x = TILE_SIZE;
 	inc = get_hsign(p->rayangle);
+	d.x = TILE_SIZE;
 	grid.x = floor(p->tox / TILE_SIZE) * TILE_SIZE + inc.x;
 	d.y = fabs(fabs(grid.x - p->x) * tan(degtorad(p->rayangle)));
 	grid.y = p->toy + (d.y * inc.signy);

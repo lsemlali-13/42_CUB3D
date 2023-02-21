@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:33:49 by lsemlali          #+#    #+#             */
-/*   Updated: 2023/02/20 12:38:43 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:56:43 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,11 @@ void	cast_rend(t_map *map)
 	p->map = map;
 	load_textures(p);
 	get_player_info(map->map, p);
+	p->win_width = 70 * TILE_SIZE;
+	p->win_height = 30 * TILE_SIZE;
 	win->mlx_w = mlx_new_window(win->mlx_p, \
-		p->map_width, p->map_height, "CUB3D");
-	p->wind.img = mlx_new_image(p->win->mlx_p, p->map_width, p->map_height);
+		p->win_width, p->win_height, "CUB3D");
+	p->wind.img = mlx_new_image(p->win->mlx_p, p->win_width, p->win_height);
 	p->wind.addr = mlx_get_data_addr(p->wind.img, &(p->wind.bits_per_pixel), \
 		&(p->wind.line_length), &(p->wind.endian));
 	ren3d(p);
