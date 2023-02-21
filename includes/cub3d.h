@@ -6,7 +6,7 @@
 /*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:20:11 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/21 15:51:28 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:59:06 by rarahhal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,6 @@ typedef struct s_textur
 	char	*west_texture;
 	char	*east_texture;
 }	t_textur;
-
-// typedef struct s_color
-// {
-// 	int	r;
-// 	int	g;
-// 	int	b;
-// }	t_color;
 
 typedef struct s_vector
 {
