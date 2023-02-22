@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collores.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:00:34 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/21 15:52:46 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/22 13:19:37 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,30 @@ int	rgb_to_dec(int r, int g, int b)
 	return (color);
 }
 
+int	arr_s(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
 int	help(t_game *game, int i)
 {
 	char	**stock1;
 	char	**stock2;
 	int		color;
+	int		k;
 
-	stock1 = ft_split(game->map_contant[i], ' ');
-	stock2 = ft_split(stock1[1], ',');
-	if (!stock2[0] || !stock2[1] || !stock2[2])
+	k = 0;
+	stock1 = ft_split(game->map_contant[i], ' ', &k);
+	if (arr_s(stock1) != 2)
+		ft_error("error in collores\n");
+	k = 0;
+	stock2 = ft_split(stock1[1], ',', &k);
+	if (arr_s(stock2) != 3 || k != 2)
 		ft_error("error in collores\n");
 	color = rgb_to_dec(ft_atoi(stock2[0]),
 			ft_atoi(stock2[1]), ft_atoi(stock2[2]));

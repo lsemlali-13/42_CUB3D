@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 12:04:58 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/14 14:09:14 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/22 13:38:36 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ size_t	ft_strlcpy(char *dist, const char *src, size_t dstsize)
 	return (ft_strlen(src));
 }
 
-int	num_of_words(const char *str, char c)
+int	num_of_words(const char *str, char c, int *k)
 {
 	int	i;
 	int	j;
@@ -49,6 +49,8 @@ int	num_of_words(const char *str, char c)
 	j = 0;
 	while (str[i])
 	{
+		if (str[i] == c)
+			(*k)++;
 		if (str[i] != c && (str[i + 1] == c || str[i + 1] == '\0'))
 			j++;
 		i++;
@@ -71,7 +73,7 @@ char	*next_str(char const *s, char c)
 	return (tab);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c, int *k)
 {
 	int		i;
 	int		strs_len;
@@ -79,7 +81,7 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	strs_len = num_of_words(s, c);
+	strs_len = num_of_words(s, c, k);
 	tab = (char **)malloc(sizeof(char *) * (strs_len + 1));
 	if (!tab)
 		return (NULL);

@@ -6,7 +6,7 @@
 #    By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/02 22:03:03 by rarahhal          #+#    #+#              #
-#    Updated: 2023/02/22 11:27:13 by lsemlali         ###   ########.fr        #
+#    Updated: 2023/02/22 13:39:28 by lsemlali         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,9 +59,8 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@rm -f $(NAME_BONUS)
 
 re: fclean
 	@make all
 
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re

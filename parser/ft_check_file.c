@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:02:19 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/21 15:52:52 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/22 13:28:57 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ void	ft_check_file(t_game *game)
 	if (fd <= 0)
 		ft_error("error in opening file\n");
 	line = get_next_line_2(fd);
+	while (line && line[0] == '\n')
+	{
+		free(line);
+		line = get_next_line_2(fd);
+	}
 	if (!line)
 		ft_error("Error in map (vide)\n");
 	free(line);

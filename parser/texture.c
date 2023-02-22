@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:18:03 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/21 15:53:08 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/22 13:16:49 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*getere(t_game *game, char *what, int go)
 	char	**stock;
 	char	*reture;
 
-	stock = ft_split(game->map_contant[go], ' ');
+	stock = ft_split(game->map_contant[go], ' ', &go);
 	if (ft_strncmp(stock[0], what, ft_strlen(stock[0])) == 0 && stock[1])
 	{
 		if (stock[2])
