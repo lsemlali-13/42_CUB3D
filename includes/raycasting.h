@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 14:28:27 by lsemlali          #+#    #+#             */
-/*   Updated: 2023/02/21 15:56:54 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/22 11:13:52 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ typedef struct s_player{
 	double		rotangle;
 	double		rayangle;
 	double		x;
+	double		mousex;
+	double		mouseang;
 	double		y;
 	int			map_height;
 	int			win_height;

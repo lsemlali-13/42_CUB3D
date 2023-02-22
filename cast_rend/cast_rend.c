@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:33:49 by lsemlali          #+#    #+#             */
-/*   Updated: 2023/02/21 12:56:43 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/22 11:27:01 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	key_hook(int keycode, void *p)
 	if (keycode == ESC)
 		exit_game(pl->win);
 	move_player(keycode, pl);
+	pl->mouseang = 0;
 	return (0);
 }
 
@@ -51,6 +52,20 @@ void	load_textures(t_player *p)
 		&(p->img_s.line_length), &(p->img_s.endian));
 }
 
+int	mouse_code(int x, int y, void *p)
+{
+	t_player	*pl;
+
+	pl = (t_player *)p;
+	(void)y;
+	if (x > pl->mousex || (x == pl->mousex && x > pl->win_width / 2))
+		pl->mouseang = -5;
+	else
+		pl->mouseang = +5;
+	pl->mousex = x;
+	return (0);
+}
+
 void	cast_rend(t_map *map)
 {
 	t_win		*win;
@@ -72,6 +87,9 @@ void	cast_rend(t_map *map)
 		&(p->wind.line_length), &(p->wind.endian));
 	ren3d(p);
 	mlx_hook(win->mlx_w, X_EVENT_KEY_EXIT, 0, exit_game, win);
+	p->mouseang = 0;
+	mlx_hook(win->mlx_w, 6, 0, mouse_code, p);
 	mlx_hook(win->mlx_w, 2, 0, key_hook, p);
+	p->mousex = 0;
 	mlx_loop(win->mlx_p);
 }

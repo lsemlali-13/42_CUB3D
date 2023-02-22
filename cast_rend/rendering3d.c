@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 12:43:48 by lsemlali          #+#    #+#             */
-/*   Updated: 2023/02/21 12:58:16 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/22 10:59:03 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	draw_texture(t_point fr, t_img p_img, t_player *p, double wallh)
 	p->tox = floor((int)(img.w * ((p->tox + p->toy) / TILE_SIZE)) % img.w);
 	if ((2 * wallh) > p->win_height)
 		newy = (int)((((2 * wallh) - p->win_height) / 2) * inc) % img.h;
-	p->toy = (p->win_height / 2) + ((p->win_height / 2) - fr.y);
+	p->toy = p->win_height - fr.y;
 	while (fr.y < p->toy)
 	{
 		color = get_color(img, p->tox, newy);

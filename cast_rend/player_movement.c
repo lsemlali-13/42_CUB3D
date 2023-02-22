@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 12:40:14 by lsemlali          #+#    #+#             */
-/*   Updated: 2023/02/20 12:41:43 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/22 11:18:54 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,14 @@ void	move_and_rend(t_player *p, double ang)
 	if (is_valid(p, p->x + cos(degtorad(ang)) \
 		* SPEED, p->y - sin(degtorad(ang)) * SPEED))
 	{
+		p->rotangle += p->mouseang;
 		p->x += cos(degtorad(ang)) * SPEED;
 		p->y -= sin(degtorad(ang)) * SPEED;
+		ren3d(p);
+	}
+	else if (p->mouseang != 0)
+	{
+		p->rotangle += p->mouseang;
 		ren3d(p);
 	}
 }
