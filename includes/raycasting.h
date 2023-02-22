@@ -6,7 +6,7 @@
 /*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 14:28:27 by lsemlali          #+#    #+#             */
-/*   Updated: 2023/02/22 11:13:52 by lsemlali         ###   ########.fr       */
+/*   Updated: 2023/02/22 13:17:19 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ typedef struct s_player{
 	t_img		img_s;
 }	t_player;
 
-char	**ft_split(char const *s, char c);
 void	dda(t_player *p);
 double	degtorad(double ang);
 int		is_wallh(t_player *p, int x, int y);
