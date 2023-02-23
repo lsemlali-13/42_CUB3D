@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collect_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rarahhal <rarahhal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsemlali <lsemlali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:55:20 by rarahhal          #+#    #+#             */
-/*   Updated: 2023/02/21 15:52:43 by rarahhal         ###   ########.fr       */
+/*   Updated: 2023/02/23 10:27:54 by lsemlali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	collect_map(t_game *game, int index)
 	while (game->map_contant[index] && !game->map_contant[index][0])
 		index++;
 	game->map->height = 0;
+	if (!game->map_contant[index] && !game->map_contant[index][0])
+		ft_error("error in map\n");
 	while (game->map_contant[index + game->map->height]
 		&& game->map_contant[index + game->map->height][0])
 	{
