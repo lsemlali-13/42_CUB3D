@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = cub3D
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -I/usr/include -Imlx_linux -O3
 CC = cc
 
 SRCS =  cub3d.c \
@@ -50,7 +50,8 @@ OBJS_L = $(LIBFT:.c=.o)
 
 
 $(NAME): $(OBJS) $(OBJS_L)
-	$(CC) $(CFLAGS) -lmlx -framework OpenGL -framework AppKit $(OBJS) $(OBJS_L) -o $(NAME)
+$(NAME): $(OBJ)
+	$(CC) $(OBJ) $(OBJS_L) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
 all: $(NAME)
 
