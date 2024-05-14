@@ -89,7 +89,7 @@ void	cast_rend(t_map *map)
 	mlx_hook(win->mlx_w, X_EVENT_KEY_EXIT, 0, exit_game, win);
 	p->mouseang = 0;
 	mlx_hook(win->mlx_w, 6, 0, mouse_code, p);
-	mlx_hook(win->mlx_w, 2, 0, key_hook, p);
+	mlx_key_hook(win->mlx_w, key_hook, p);
 	p->mousex = 0;
 	mlx_loop(win->mlx_p);
 }

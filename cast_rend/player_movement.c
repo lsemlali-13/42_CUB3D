@@ -46,6 +46,7 @@ void	move_and_rend(t_player *p, double ang)
 
 void	move_player(int key, t_player *p)
 {
+	printf("key is %d\n", key);
 	if (key == UP)
 		move_and_rend(p, p->rotangle);
 	if (key == DOWN)

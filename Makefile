@@ -50,9 +50,10 @@ OBJS_L = $(LIBFT:.c=.o)
 
 
 $(NAME): $(OBJS) $(OBJS_L)
-$(NAME): $(OBJ)
-	$(CC) $(OBJ) $(OBJS_L) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
-
+# $(NAME): $(OBJ)
+	# $(CC) $(OBJ) $(OBJS_L) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+$(NAME): $(OBJS) $(OBJS_L)
+	$(CC) $(FLAGS) $(OBJS) $(OBJS_L) -L/mlx_linux mlx_linux/libmlx.a -lXext -lX11 -lbsd -lm -o $(NAME)
 all: $(NAME)
 
 clean:
